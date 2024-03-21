@@ -50,10 +50,11 @@ public class Security {
 	/**
 	 * Finaliza la sesion
 	 */
-	public void logout() {
+	public boolean logout() {
 		HttpSession session = request.getSession();
 		session.removeAttribute(Security.SESSION_ID_ATTRIBUTE);
 		session.removeAttribute(Security.SESSION_NAME_ATTRIBUTE);
+		return true;
 	}
 
 	/**

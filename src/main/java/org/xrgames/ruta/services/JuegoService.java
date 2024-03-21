@@ -10,6 +10,10 @@ public class JuegoService {
 	
 	private Juego juego = new Juego();
 	
+	public void create() {
+		juego = new Juego();
+	}
+	
 	public Juego current() {
 		return juego;
 	}

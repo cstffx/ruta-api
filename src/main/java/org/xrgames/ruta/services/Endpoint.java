@@ -3,6 +3,9 @@ package org.xrgames.ruta.services;
 import java.text.MessageFormat;
 
 public class Endpoint {
+	static final String ENDPOINT_LOGIN = "jugador/login";
+	static final String ENDPOINT_LOGOUT = "jugador/logout";
+	static final String ENDPOINT_JUEGO_CREATE = "juego/create";
 	
 	static final String PROTOCOL = "http";
 	static final String HOST = "localhost";

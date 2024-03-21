@@ -1,9 +1,16 @@
 package org.xrgames.ruta;
 
+import org.xrgames.ruta.services.JuegoService;
+import org.xrgames.ruta.services.LoginFormData;
+
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/juego")
 public class JuegoController {
@@ -11,15 +18,19 @@ public class JuegoController {
 	@Inject 
 	Security sec;
 
-	@Context
-	public HttpServletRequest request;
-
+	@Inject 
+	JuegoService juego;
+	
 	/**
-	 * @POST() @Path("/logout") public Response logout(@Context HttpServletRequest
-	 *         request) { HttpSession session = request.getSession(); Object id =
-	 *         session.getAttribute(Juego.SESSION_ID_ATTRIBUTE); if(id != null) { //
-	 *         TODO: Leave Juego.
-	 *         session.removeAttribute(Juego.SESSION_ID_ATTRIBUTE); } return
-	 *         Response.status(Response.Status.OK).build(); }
+	 * Crea un nuevo juego.
+	 * @param login
+	 * @return
+	 * @throws Exception
 	 */
+	@POST
+	@Path("create")
+	public Response create() {
+		juego.create();
+		return Response.ok().build();
+	}
 }

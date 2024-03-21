@@ -35,4 +35,13 @@ public class JugadorController {
 		var token = sec.login(login.username);
 		return Result.json(token);
 	}
+	
+	@POST
+	@Path("/logout")
+	public Response logout(LoginFormData login) throws Exception {
+		if(sec.logout()) {
+			return Response.ok().build();
+		}
+		return Response.serverError().build();
+	}
 }
