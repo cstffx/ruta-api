@@ -30,10 +30,17 @@ public final class Juego {
     
     private final Partida partida;
 	public LinkedList<Equipo> equipos = new LinkedList<>();
+	private ConfiguracionJuego config;
 
     public Juego() {
         partida = new Partida();
     }
+    
+    public Juego(ConfiguracionJuego config) {
+    	this.config = config;
+        partida = new Partida();
+    }
+
 
     public void nuevaPartida() {
         partida.nuevaPartida();

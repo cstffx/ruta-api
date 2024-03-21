@@ -29,7 +29,8 @@ public class JuegoController {
 	 */
 	@POST
 	@Path("create")
-	public Response create() {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create(JuegoCreateFormData form) {
 		juego.create();
 		return Response.ok().build();
 	}

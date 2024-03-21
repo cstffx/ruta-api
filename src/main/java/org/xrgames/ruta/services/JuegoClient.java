@@ -25,6 +25,10 @@ public class JuegoClient {
 	public JuegoClient() {
 		
 	}
+	
+	public JuegoClient(ActiveClient client) {
+		activeClient = client;
+	}
 
 	/**
 	 * Crea un nuevo juego

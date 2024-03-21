@@ -17,6 +17,7 @@ public class ActiveClient {
 
 	private String username;
 	private LoginResult loginResult;
+	private boolean debug = false;
 
 	/**
 	 * Contructor por defecto para satisfacer al 
@@ -53,6 +54,10 @@ public class ActiveClient {
 		var postData = Entity.entity(formData, MediaType.APPLICATION_JSON);
 		var res = invocationBuilder.post(postData);
 
+		if(debug) {
+			System.err.println(res.readEntity(String.class));
+		}
+		
 		if (res.getStatus() == Response.Status.OK.getStatusCode()) {
 			var token = res.readEntity(SessionToken.class);
 			token = token != null ? token : new SessionToken();
@@ -69,14 +74,18 @@ public class ActiveClient {
 	 * @return
 	 */
 	public boolean logout() {
-		if (loginResult.isErr()) {
+		if(loginResult.isErr()) {
 			return false;
 		}
-
+		
 		var url = Endpoint.build(Endpoint.ENDPOINT_LOGOUT);
 		var client = loginResult.getClient();
 		var target = client.target(url);
 		var request = target.request(MediaType.APPLICATION_JSON).post(null);
+		
+		if(debug) {
+			System.err.println(request.readEntity(String.class));
+		}
 		
 		if(request.getStatus() == Response.Status.OK.getStatusCode()) {
 			this.loginResult = new LoginResult();
@@ -102,5 +111,9 @@ public class ActiveClient {
 	
 	public Client getClient() {
 		return loginResult.isSome() ? loginResult.getClient() : null;
+	}
+	
+	public void setDebug(boolean debug) {
+		this.debug = debug;
 	}
 }

@@ -28,6 +28,7 @@ public class JugadorController {
 	@POST
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(LoginFormData login) throws Exception {
 		if(login.username.isEmpty()) {
 			return Response.notAcceptable(null).build();
@@ -38,6 +39,7 @@ public class JugadorController {
 	
 	@POST
 	@Path("/logout")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response logout(LoginFormData login) throws Exception {
 		if(sec.logout()) {
 			return Response.ok().build();
