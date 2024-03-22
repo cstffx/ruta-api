@@ -1,17 +1,14 @@
 package org.xrgames.ruta.logic;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.text.MessageFormat;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
 import org.junit.jupiter.api.Test;
+import org.xrgames.logic.Equipo;
 import org.xrgames.logic.EquipoCollection;
 import org.xrgames.logic.Juego;
-import org.xrgames.logic.Equipo;
 
 public class EquipoCollectionTest {
 	
