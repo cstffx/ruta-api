@@ -1,4 +1,4 @@
-package org.xrgames.ruta;
+package org.xrgames.ruta.controller;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.core.Response;

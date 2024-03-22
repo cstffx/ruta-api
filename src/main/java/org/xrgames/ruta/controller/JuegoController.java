@@ -1,5 +1,6 @@
-package org.xrgames.ruta;
+package org.xrgames.ruta.controller;
 
+import org.xrgames.ruta.form.JuegoCreateFormData;
 import org.xrgames.ruta.services.JuegoService;
 import org.xrgames.ruta.services.Security;
 

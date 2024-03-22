@@ -1,4 +1,4 @@
-package org.xrgames.ruta;
+package org.xrgames.ruta.controller;
 
 import java.util.LinkedList;
 
@@ -40,8 +40,7 @@ public class JugadorController {
 	
 	@POST
 	@Path("/logout")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response logout(LoginFormData login) throws Exception {
+	public Response logout() throws Exception {
 		if(sec.logout()) {
 			return Response.ok().build();
 		}

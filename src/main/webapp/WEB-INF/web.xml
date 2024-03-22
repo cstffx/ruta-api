@@ -6,12 +6,12 @@
 
     <!-- Configuración de servlets -->
     <servlet>
-        <servlet-name>RestApplication</servlet-name>
-        <servlet-class>org.xrgames.ruta.api.RestApplication</servlet-class>
+        <servlet-name>RutaApplication</servlet-name>
+        <servlet-class>org.xrgames.ruta.controller.RutaApplication</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>RestApplication</servlet-name>
+        <servlet-name>RutaApplication</servlet-name>
         <url-pattern>/api</url-pattern>
     </servlet-mapping>
 </web-app>

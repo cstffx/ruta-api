@@ -40,7 +40,6 @@ public class JuegoClient {
 
 	/**
 	 * Crea un nuevo juego
-	 * 
 	 * @return
 	 */
 	public boolean create(ConfiguracionJuego config) {

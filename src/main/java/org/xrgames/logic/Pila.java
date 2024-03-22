@@ -12,6 +12,9 @@ public class Pila {
     public final Cartas contrataque = new Cartas();
     public final Cartas seguridadEscudo = new Cartas();
 
+    /**
+     * Vacía la pila de cartas.
+     */
     void vaciar() {
         ataqueDefensa.clear();
         velocidad.clear();

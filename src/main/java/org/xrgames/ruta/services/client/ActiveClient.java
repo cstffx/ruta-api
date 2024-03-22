@@ -2,8 +2,7 @@ package org.xrgames.ruta.services.client;
 
 import org.xrgames.ruta.services.Endpoint;
 import org.xrgames.ruta.services.LoginFormData;
-import org.xrgames.ruta.services.LoginResult;
-import org.xrgames.ruta.services.Security;
+import org.xrgames.ruta.services.Result;
 import org.xrgames.ruta.services.SessionToken;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -21,25 +20,18 @@ import jakarta.ws.rs.core.Response;
 @ApplicationScoped
 public class ActiveClient {
 
-	private String username;
-	private LoginResult loginResult;
-	private boolean debug = false;
+	public static final String SESSION_ID_KEY = "JSESSIONID";
+	
+	private String sessionId; 
+	private Result result;
+	private Client client;
 
 	/**
 	 * Contructor por defecto para satisfacer al 
 	 * inyector de dependencias.
 	 */
 	public ActiveClient() {
-		username = "";
-		loginResult = new LoginResult();
-	}
-	
-	/**
-	 * @param username
-	 */
-	public ActiveClient(String username) {
-		this.loginResult = new LoginResult();
-		this.username = username;
+		result = new Result();
 	}
 	
 	/**
@@ -49,13 +41,11 @@ public class ActiveClient {
 	 * @return
 	 */
 	public Response post(String url, Object entity) {
-		var client = loginResult.getClient();
 		WebTarget webTarget = client.target(url);
 		var postData = Entity.entity(entity, MediaType.APPLICATION_JSON);
-		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-		var token = loginResult.getToken();
-		invocationBuilder.cookie(Security.SESSION_ID_ATTRIBUTE, token.id);
-		return invocationBuilder.post(postData);
+		Invocation.Builder builder = webTarget.request(MediaType.APPLICATION_JSON);
+		updateCookies(builder);
+		return builder.post(postData);
 	}
 	
 	/**
@@ -63,46 +53,59 @@ public class ActiveClient {
 	 * @param url
 	 * @param entity
 	 * @return
+	 * @throws Exception 
 	 */
-	public Response get(String url) {
-		var client = loginResult.getClient();
+	public Response get(String url) throws Exception {
+		if(null == this.sessionId || null == client) {
+			throw new Exception("Debe autenticarse antes de hacer peticiones");
+		}
+		
 		WebTarget webTarget = client.target(url);
-		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-		var token = loginResult.getToken();
-		invocationBuilder.cookie(Security.SESSION_ID_ATTRIBUTE, token.id);
-		return invocationBuilder.get();
+		Invocation.Builder builder = webTarget.request(MediaType.APPLICATION_JSON);
+		
+		updateCookies(builder);
+		
+		return builder.get();
+	}
+	
+	/**
+	 * Autentica un usuario de nombre test 
+	 * @return
+	 */
+	public Result auth() {
+		return auth("test");
 	}
 
 	/**
 	 * Obtiene una sesion para el usuario con el username actual.
 	 * @return
 	 */
-	public LoginResult auth() {
+	public Result auth(String username) {
 		var url = Endpoint.build(Endpoint.ENDPOINT_LOGIN);
-		loginResult = new LoginResult();
+		result = new Result();
 
-		Client client = ClientBuilder.newClient();
+		client = ClientBuilder.newClient();
 
 		WebTarget webTarget = client.target(url);
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 
 		var formData = new LoginFormData(username);
-		var postData = Entity.entity(formData, MediaType.APPLICATION_JSON);
-		var res = invocationBuilder.post(postData);
-
-		if(debug) {
-			System.err.println(res.readEntity(String.class));
-		}
+		var entity = Entity.entity(formData, MediaType.APPLICATION_JSON);
+		var res = invocationBuilder.post(entity);
 		
 		if (res.getStatus() == Response.Status.OK.getStatusCode()) {
 			var token = res.readEntity(SessionToken.class);
 			token = token != null ? token : new SessionToken();
-			this.loginResult.setToken(token);
+			
+			if(!token.isEmpty()) {
+				var cookies = res.getCookies(); 
+				sessionId = cookies.get(SESSION_ID_KEY).getValue();
+			}
+			
+			this.result.setToken(token);
 		}
 
-		loginResult.setClient(client);
-
-		return loginResult;
+		return result;
 	}
 
 	/**
@@ -110,39 +113,22 @@ public class ActiveClient {
 	 * @return
 	 */
 	public boolean logout() {
-		if(loginResult.isErr()) {
+		if(result.isErr()) {
 			return false;
 		}
 		
 		var url = Endpoint.build(Endpoint.ENDPOINT_LOGOUT);
 		var res = post(url, null);
+		
 		if(res.getStatus() == Response.Status.OK.getStatusCode()) {
-			this.loginResult = new LoginResult();
+			this.result = new Result();
 			return true;
 		}
 		
 		return false;
 	}
-
-	/**
-	 * @return Nombre de usuario actual
-	 */
-	public String getUsername() {
-		return this.username;
-	}
 	
-	/**
-	 * @return Resultado de la autenticacion
-	 */
-	public LoginResult getLoginResult() {
-		return loginResult;
-	}
-	
-	public Client getClient() {
-		return loginResult.isSome() ? loginResult.getClient() : null;
-	}
-	
-	public void setDebug(boolean debug) {
-		this.debug = debug;
+	public void updateCookies(Invocation.Builder builder) {
+		builder.cookie(SESSION_ID_KEY, sessionId);
 	}
 }

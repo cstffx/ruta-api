@@ -1,4 +1,4 @@
-package org.xrgames.ruta;
+package org.xrgames.ruta.controller;
 
 import org.xrgames.ruta.services.JuegoService;
 import org.xrgames.ruta.services.Security;
@@ -25,6 +25,10 @@ public class EquipoController {
 	@Context()
 	public HttpServletRequest request;
 
+	/**
+	 * Retorna una lista de todos los equipos disponibles.
+	 * @return
+	 */
 	@GET
 	public Response getAll() {
 		if (sec.isAnonimous()) {
@@ -32,9 +36,15 @@ public class EquipoController {
 		}
 		var juego = service.current(); 
 		var entity = juego.getEquipos();
+		
 		return Result.json(entity);
 	}
 
+	/**
+	 * Crea un nuevo equipo
+	 * @param nombre
+	 * @return
+	 */
 	@POST
 	public Response create(String nombre) {
 		if (sec.isAnonimous()) {
@@ -48,6 +58,7 @@ public class EquipoController {
 		if (result) {
 			return Result.ok();
 		}
+		
 		return Result.notAcceptable();
 	}
 	

@@ -1,9 +1,8 @@
-package org.xrgames.ruta;
+package org.xrgames.ruta.controller;
 
 import org.xrgames.logic.Juego;
 
 import jakarta.ws.rs.ApplicationPath;
-
 import jakarta.ws.rs.core.Application;
 
 @ApplicationPath("/api")

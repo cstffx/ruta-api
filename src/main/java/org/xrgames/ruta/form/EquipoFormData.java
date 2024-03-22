@@ -1,4 +1,4 @@
-package org.xrgames.ruta;
+package org.xrgames.ruta.form;
 
 public class EquipoFormData {
 	public String nombre;

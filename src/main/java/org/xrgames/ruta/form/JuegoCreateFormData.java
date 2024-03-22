@@ -1,4 +1,4 @@
-package org.xrgames.ruta;
+package org.xrgames.ruta.form;
 
 import org.xrgames.logic.ConfiguracionJuego;
 
