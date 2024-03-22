@@ -1,6 +1,7 @@
 package org.xrgames.ruta.services.client;
 
 import org.xrgames.logic.ConfiguracionJuego;
+import org.xrgames.ruta.services.Debug;
 import org.xrgames.ruta.services.Endpoint;
 import org.xrgames.ruta.services.ResponseUtil;
 
@@ -47,9 +48,8 @@ public class JuegoClient {
 	public boolean create(ConfiguracionJuego config) throws Exception {
 		var url = Endpoint.build(Endpoint.JUEGO_CREATE);
 		var res = activeClient.post(url, config);
-		
-		System.err.println(res.readEntity(String.class));
-		
+		Debug.debug(res);		
+
 		return ResponseUtil.isOk(res);
 	}
 }
