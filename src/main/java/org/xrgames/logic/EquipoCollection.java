@@ -79,6 +79,24 @@ public class EquipoCollection extends LinkedList<Equipo> {
 	}
 	
 	/**
+	 * Retorna true si el nombre de un equipo ya existe. 
+	 * @param nombre
+	 * @return
+	 */
+	public boolean exists(int nombre) {
+		return indexOf(String.valueOf(nombre)) != -1;
+	}
+	
+	/**
+	 * Retorna true si el nombre de un equipo ya existe. 
+	 * @param nombre
+	 * @return
+	 */
+	public boolean exists(String nombre) {
+		return indexOf(nombre) != -1;
+	}
+	
+	/**
 	 * Agrega un equipo a la colección.
 	 * @param nombre
 	 * @return true si el equipo fue agregado. False si se excede la cantidad máxima permitida.

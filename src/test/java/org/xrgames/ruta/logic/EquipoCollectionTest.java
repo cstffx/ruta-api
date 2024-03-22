@@ -10,9 +10,28 @@ import org.xrgames.logic.Juego;
 import org.xrgames.logic.Equipo;
 
 public class EquipoCollectionTest {
+	
+	@Test
+	void existsTest() {
+		var collection = new EquipoCollection(); 
+		collection.add(1);
+		collection.add(2);
+		
+		assertTrue(collection.exists(1));
+		assertTrue(collection.exists(2));
+		assertFalse(collection.exists(3));
+	}
+	
 	@Test
 	void indexOfTest() {
+		var collection = new EquipoCollection(); 
+		collection.add(1);
+		collection.add(2);
+		collection.add(3); 
 		
+		assertEquals(2, collection.indexOf(3));
+		assertEquals(1, collection.indexOf(3));
+		assertEquals(2, collection.indexOf(3));
 	}
 	
 	@Test 
