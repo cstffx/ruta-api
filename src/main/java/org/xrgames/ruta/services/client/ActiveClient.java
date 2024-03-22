@@ -1,4 +1,9 @@
-package org.xrgames.ruta.services;
+package org.xrgames.ruta.services.client;
+
+import org.xrgames.ruta.services.Endpoint;
+import org.xrgames.ruta.services.LoginFormData;
+import org.xrgames.ruta.services.LoginResult;
+import org.xrgames.ruta.services.SessionToken;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.client.Client;

@@ -3,8 +3,8 @@ package org.xrgames.ruta.api;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-import org.xrgames.ruta.services.ActiveClient;
-import org.xrgames.ruta.services.JuegoClient;
+import org.xrgames.ruta.services.client.ActiveClient;
+import org.xrgames.ruta.services.client.JuegoClient;
 
 public class JuegoControllerTest {
 
