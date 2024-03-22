@@ -29,7 +29,12 @@ public class JuegoController {
 	@Path("create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(JuegoCreateFormData form) {
+		if (sec.isAnonimous()) {
+			return Result.forbiden();
+		}
 		juego.create(form);
 		return Response.ok().build();
 	}
+	
+	
 }

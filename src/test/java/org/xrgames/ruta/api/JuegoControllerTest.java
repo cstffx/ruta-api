@@ -3,6 +3,7 @@ package org.xrgames.ruta.api;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.xrgames.logic.ConfiguracionJuego;
 import org.xrgames.ruta.services.client.ActiveClient;
 import org.xrgames.ruta.services.client.JuegoClient;
 
@@ -14,6 +15,7 @@ public class JuegoControllerTest {
 		assertTrue(client.auth().isSome());
 		
 		JuegoClient juego = new JuegoClient(client);
+
 		assertTrue(juego.create());
 	}
 }

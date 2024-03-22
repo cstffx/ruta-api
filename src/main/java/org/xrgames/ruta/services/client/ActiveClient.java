@@ -3,6 +3,7 @@ package org.xrgames.ruta.services.client;
 import org.xrgames.ruta.services.Endpoint;
 import org.xrgames.ruta.services.LoginFormData;
 import org.xrgames.ruta.services.LoginResult;
+import org.xrgames.ruta.services.Security;
 import org.xrgames.ruta.services.SessionToken;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -40,10 +41,40 @@ public class ActiveClient {
 		this.loginResult = new LoginResult();
 		this.username = username;
 	}
+	
+	/**
+	 * Envia una peticion al servidor con las credenciales actuales.
+	 * @param url
+	 * @param entity
+	 * @return
+	 */
+	public Response post(String url, Object entity) {
+		var client = loginResult.getClient();
+		WebTarget webTarget = client.target(url);
+		var postData = Entity.entity(entity, MediaType.APPLICATION_JSON);
+		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
+		var token = loginResult.getToken();
+		invocationBuilder.cookie(Security.SESSION_ID_ATTRIBUTE, token.id);
+		return invocationBuilder.post(postData);
+	}
+	
+	/**
+	 * Envia una peticion al servidor con las credenciales actuales.
+	 * @param url
+	 * @param entity
+	 * @return
+	 */
+	public Response get(String url) {
+		var client = loginResult.getClient();
+		WebTarget webTarget = client.target(url);
+		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
+		var token = loginResult.getToken();
+		invocationBuilder.cookie(Security.SESSION_ID_ATTRIBUTE, token.id);
+		return invocationBuilder.get();
+	}
 
 	/**
 	 * Obtiene una sesion para el usuario con el username actual.
-	 * 
 	 * @return
 	 */
 	public LoginResult auth() {
@@ -84,15 +115,8 @@ public class ActiveClient {
 		}
 		
 		var url = Endpoint.build(Endpoint.ENDPOINT_LOGOUT);
-		var client = loginResult.getClient();
-		var target = client.target(url);
-		var request = target.request(MediaType.APPLICATION_JSON).post(null);
-		
-		if(debug) {
-			System.err.println(request.readEntity(String.class));
-		}
-		
-		if(request.getStatus() == Response.Status.OK.getStatusCode()) {
+		var res = post(url, null);
+		if(res.getStatus() == Response.Status.OK.getStatusCode()) {
 			this.loginResult = new LoginResult();
 			return true;
 		}

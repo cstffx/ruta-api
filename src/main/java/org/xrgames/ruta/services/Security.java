@@ -10,8 +10,8 @@ import jakarta.ws.rs.core.Context;
 @ApplicationScoped
 public class Security {
 	
-	private static final String SESSION_ID_ATTRIBUTE = "userid";
-	private static final String SESSION_NAME_ATTRIBUTE = "username";
+	public static final String SESSION_ID_ATTRIBUTE = "userid";
+	public static final String SESSION_NAME_ATTRIBUTE = "username";
 
 	@Context
 	private HttpServletRequest request;

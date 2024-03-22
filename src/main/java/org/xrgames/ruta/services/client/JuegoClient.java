@@ -6,8 +6,6 @@ import org.xrgames.ruta.services.ResponseUtil;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.MediaType;
 
 /**
  * Cliente para operaciones con la entidad Juego.
@@ -25,8 +23,19 @@ public class JuegoClient {
 
 	}
 
+	/**
+	 * @param client
+	 */
 	public JuegoClient(ActiveClient client) {
 		activeClient = client;
+	}
+	
+	/**
+	 * Crea un juego con la configuracion por defecto.
+	 * @return
+	 */
+	public boolean create() {
+		return create(new ConfiguracionJuego());
 	}
 
 	/**
@@ -36,10 +45,7 @@ public class JuegoClient {
 	 */
 	public boolean create(ConfiguracionJuego config) {
 		var url = Endpoint.build(Endpoint.ENDPOINT_JUEGO_CREATE);
-		var client = activeClient.getClient();
-		var target = client.target(url);
-		var entity = Entity.entity(config, MediaType.APPLICATION_JSON);
-		var response = target.request(MediaType.APPLICATION_JSON).post(entity);
-		return ResponseUtil.isOk(response);
+		var res = activeClient.post(url, config);
+		return ResponseUtil.isOk(res);
 	}
 }
