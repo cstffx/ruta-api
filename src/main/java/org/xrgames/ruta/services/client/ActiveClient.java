@@ -27,11 +27,21 @@ public class ActiveClient {
 	private Client client;
 
 	/**
-	 * Contructor por defecto para satisfacer al 
-	 * inyector de dependencias.
+	 * Contructor por defecto para satisfacer al inyector de dependencias.
 	 */
 	public ActiveClient() {
 		result = new AuthResult();
+	}
+	
+	/**
+	 * Envia una peticion al servidor con las credenciales actuales.
+	 * @param url
+	 * @param entity
+	 * @return
+	 * @throws Exception 
+	 */
+	public Response post(String url) throws Exception {
+		return post(url, null);
 	}
 	
 	/**
@@ -45,6 +55,7 @@ public class ActiveClient {
 		if(null == this.sessionId || null == client) {
 			throw new Exception("Debe autenticarse antes de hacer peticiones");
 		}
+		
 		WebTarget webTarget = client.target(url);
 		var postData = Entity.entity(entity, MediaType.APPLICATION_JSON);
 		Invocation.Builder builder = webTarget.request(MediaType.APPLICATION_JSON);
@@ -115,8 +126,9 @@ public class ActiveClient {
 	/**
 	 * Cierra la sesión del usuario actual.
 	 * @return
+	 * @throws Exception 
 	 */
-	public boolean logout() {
+	public boolean logout() throws Exception {
 		if(result.isErr()) {
 			return false;
 		}
@@ -132,6 +144,9 @@ public class ActiveClient {
 		return false;
 	}
 	
+	/**
+	 * @param builder
+	 */
 	public void updateCookies(Invocation.Builder builder) {
 		builder.cookie(SESSION_ID_KEY, sessionId);
 	}
