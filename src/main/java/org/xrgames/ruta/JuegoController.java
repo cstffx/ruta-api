@@ -1,6 +1,7 @@
 package org.xrgames.ruta;
 
 import org.xrgames.ruta.services.JuegoService;
+import org.xrgames.ruta.services.Security;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;

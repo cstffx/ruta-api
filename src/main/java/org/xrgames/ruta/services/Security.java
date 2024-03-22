@@ -1,8 +1,6 @@
-package org.xrgames.ruta;
+package org.xrgames.ruta.services;
 
 import java.util.UUID;
-
-import org.xrgames.ruta.services.SessionToken;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +9,7 @@ import jakarta.ws.rs.core.Context;
 
 @ApplicationScoped
 public class Security {
+	
 	private static final String SESSION_ID_ATTRIBUTE = "userid";
 	private static final String SESSION_NAME_ATTRIBUTE = "username";
 
