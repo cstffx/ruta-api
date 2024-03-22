@@ -16,7 +16,7 @@ import jakarta.ws.rs.core.Response;
 public class EquipoController {
 	
 	@Inject
-	private JuegoService juego;
+	private JuegoService service;
 
 	@Inject
 	private Security sec;
@@ -29,7 +29,8 @@ public class EquipoController {
 		if (sec.isAnonimous()) {
 			return Result.forbiden();
 		}
-		var entity = juego.current().getEquipos();
+		var juego = service.current(); 
+		var entity = juego.getEquipos();
 		return Result.json(entity);
 	}
 
@@ -38,7 +39,11 @@ public class EquipoController {
 		if (sec.isAnonimous()) {
 			return Result.forbiden();
 		}
-		var result = juego.current().addEquipo(nombre);
+		
+		var juego = service.current(); 
+		var equipos = juego.getEquipos();
+		
+		var result = equipos.add(nombre);
 		if (result) {
 			return Result.ok();
 		}
@@ -52,7 +57,10 @@ public class EquipoController {
 			return Result.forbiden();
 		}
 		
-		var equipo = juego.current().getEquipo(id);
+		var juego = service.current(); 
+		var equipos = juego.getEquipos();
+		var equipo = equipos.get(String.valueOf(id));
+		
 		if(null == equipo) {
 			return Result.notFound();
 		}
@@ -65,7 +73,17 @@ public class EquipoController {
 		if (sec.isAnonimous()) {
 			return Result.forbiden();
 		}
-		juego.current().deleteEquipo(id);
+		
+		var juego = service.current(); 
+		var equipos = juego.getEquipos();
+		var equipo = equipos.get(String.valueOf(id));
+		
+		if(null == equipo) {
+			return Result.notFound();
+		}
+		
+		equipos.remove(equipo); 
+		
 		return Result.ok();
 	}
 }

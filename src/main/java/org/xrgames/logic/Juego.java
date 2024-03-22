@@ -2,8 +2,6 @@ package org.xrgames.logic;
 
 import java.util.LinkedList;
 
-import org.xrgames.ruta.JuegoController;
-
 /**
  * @author user
  */
@@ -35,7 +33,7 @@ public final class Juego {
 	public static int MAX_JUGADOR_POR_EQUIPO = 2;
 	
     private final Partida partida;
-	public LinkedList<Equipo> equipos = new LinkedList<>();
+	public EquipoCollection equipos = new EquipoCollection();
 	private ConfiguracionJuego config;
 
     public Juego() {
@@ -75,12 +73,13 @@ public final class Juego {
         return partida.esFinal();
     }
 
+    /**
+     * @return La partida actual.
+     */
     public Partida getPartida() {
         return partida;
     }
     
-    
-	
 	/**
 	 * Retorna un equipo por su id
 	 * @param nombre
@@ -99,7 +98,7 @@ public final class Juego {
 	 * Retorna todos los equipos del juego.
 	 * @return
 	 */
-	public LinkedList<Equipo> getEquipos() {
+	public EquipoCollection  getEquipos() {
 		return equipos;
 	}
 

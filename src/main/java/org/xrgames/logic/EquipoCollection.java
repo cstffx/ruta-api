@@ -32,6 +32,22 @@ public class EquipoCollection extends LinkedList<Equipo> {
 	}
 	
 	/**
+	 * Retorna un equipo por su nombre.
+	 * @param nombre
+	 * @return
+	 */
+	public Equipo get(String nombre) {
+		var iterator = this.iterator();
+		while(iterator.hasNext()) {
+			var item = iterator.next();
+			if(item.nombre.equals(nombre)) {
+				return item;
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * Agrega un equipo a la coleccion
 	 * @param i Será convertido en el nombre del equipo
 	 * @return
@@ -69,13 +85,25 @@ public class EquipoCollection extends LinkedList<Equipo> {
 		}
 		return index;
 	}
+
+	/**
+	 * Remueve un equipo por su nombre.
+	 * @param nombre
+	 */
+	public Equipo remove(int nombre) {
+		return remove(String.valueOf(nombre));
+	}
 	
 	/**
 	 * Remueve un equipo por su nombre.
 	 * @param nombre
 	 */
-	public void remove(String nombre) {
-		
+	public Equipo remove(String nombre) {
+		int index = indexOf(nombre);
+		if(-1 == index) {
+			return null;
+		}
+		return super.remove(index);
 	}
 	
 	/**

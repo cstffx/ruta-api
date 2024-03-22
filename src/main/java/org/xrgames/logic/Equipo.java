@@ -1,5 +1,8 @@
 package org.xrgames.logic;
 
+/**
+ * Representa un equipo del juego.
+ */
 public class Equipo {
 	public int id;
 	public String nombre;
