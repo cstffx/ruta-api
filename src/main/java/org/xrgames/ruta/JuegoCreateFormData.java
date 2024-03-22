@@ -1,7 +1,7 @@
 package org.xrgames.ruta;
 
-import org.xrgames.logic.ModoJuego;
+import org.xrgames.logic.ConfiguracionJuego;
 
-public class JuegoCreateFormData {
-	ModoJuego modo;
+public class JuegoCreateFormData extends ConfiguracionJuego {
+	
 }

@@ -2,6 +2,8 @@ package org.xrgames.logic;
 
 import java.util.LinkedList;
 
+import org.xrgames.ruta.JuegoController;
+
 /**
  * @author user
  */
@@ -25,14 +27,21 @@ public final class Juego {
     public static int PUNTOS_POR_ELIMINACION = 500;
     public static int PUNTOS_MIN_PARA_GANAR = 5000;
 
+    // Cantidad maxima de equipos
 	public static int MAX_EQUIPOS = 3;
+	// Cantidad maxima de jugadores
 	public final static int MAX_JUGADORES = 6;
-    
+	// Cantidad máxima de jugadores por equipo
+	public static int MAX_JUGADOR_POR_EQUIPO = 2;
+	
     private final Partida partida;
 	public LinkedList<Equipo> equipos = new LinkedList<>();
 	private ConfiguracionJuego config;
 
     public Juego() {
+    	config = new ConfiguracionJuego();
+    	config.jugadores = 6;
+    	config.modo = ModoJuego.Individual;
         partida = new Partida();
     }
     
@@ -40,7 +49,6 @@ public final class Juego {
     	this.config = config;
         partida = new Partida();
     }
-
 
     public void nuevaPartida() {
         partida.nuevaPartida();
@@ -71,18 +79,7 @@ public final class Juego {
         return partida;
     }
     
-    /**
-	 * Agrega un equipo al juego.
-	 * @param nombre
-	 * @return
-	 */
-	public boolean addEquipo(String nombre) {
-		int size = equipos.size();
-		if(size < Juego.MAX_EQUIPOS) {
-			equipos.push(new Equipo(size + 1, nombre));
-		}
-		return false;
-	}
+    
 	
 	/**
 	 * Retorna un equipo por su id
@@ -118,5 +115,12 @@ public final class Juego {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * @return La configuración del juego.
+	 */
+	public ConfiguracionJuego getConfig() {
+		return config;
 	}
 }
