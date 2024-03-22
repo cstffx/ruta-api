@@ -1,6 +1,9 @@
 package org.xrgames.ruta.logic;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.text.MessageFormat;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -58,9 +61,9 @@ public class EquipoCollectionTest {
 		collection.add(2);
 		collection.add(3); 
 		
-		assertEquals(2, collection.indexOf(3));
-		assertEquals(1, collection.indexOf(3));
-		assertEquals(2, collection.indexOf(3));
+		assertEquals(2, collection.indexOf(String.valueOf(3)));
+		assertEquals(1, collection.indexOf(String.valueOf(2)));
+		assertEquals(0, collection.indexOf(String.valueOf(1)));
 	}
 	
 	@Test 
@@ -70,12 +73,12 @@ public class EquipoCollectionTest {
 		int i = Juego.MAX_EQUIPOS;
 		while(i > 0) {
 			collection.add(new Equipo(i));
+			--i;
 		}
 		
 		assertEquals(Juego.MAX_EQUIPOS, collection.size());
 	
-	
 		// Agregar un equipo adicional debe fallar. 
-		assertFalse(collection.add());
+		assertFalse(collection.add(Juego.MAX_EQUIPOS));
 	}
 }

@@ -37,7 +37,7 @@ public class EquipoCollection extends LinkedList<Equipo> {
 	 * @return
 	 */
 	public Equipo get(String nombre) {
-		var iterator = this.iterator();
+		var iterator = this.listIterator();
 		while(iterator.hasNext()) {
 			var item = iterator.next();
 			if(item.nombre.equals(nombre)) {
@@ -57,15 +57,6 @@ public class EquipoCollection extends LinkedList<Equipo> {
 	}
 	
 	/**
-	 * Obtiene el indice en la coleccion de un equipo
-	 * @param i
-	 * @return
-	 */
-	public int indexOf(int i) {
-		return indexOf(String.valueOf(i));
-	}
-	
-	/**
 	 * Obtiene el indice en la colección de un equipo
 	 * por su nombre.
 	 * @param nombre
@@ -74,7 +65,8 @@ public class EquipoCollection extends LinkedList<Equipo> {
 	public int indexOf(String nombre) {
 		int i = 0;
 		int index = -1;
-		var iterator = this.iterator();
+		var iterator = this.listIterator();
+		
 		while(iterator.hasNext()) {
 			var item = iterator.next();
 			if(item.nombre.equals(nombre)) {
@@ -132,7 +124,7 @@ public class EquipoCollection extends LinkedList<Equipo> {
 	public boolean add(String nombre) {
 		int size = this.size();
 		if(size < cantidadMaxima) {
-			this.push(new Equipo(size + 1, nombre));
+			this.add(new Equipo(size + 1, nombre));
 			return true;
 		}
 		return false;
