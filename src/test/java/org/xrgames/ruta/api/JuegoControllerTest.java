@@ -16,4 +16,6 @@ public class JuegoControllerTest {
 		JuegoClient service = new JuegoClient(client);
 		assertTrue(service.create());
 	}
+	
+	
 }

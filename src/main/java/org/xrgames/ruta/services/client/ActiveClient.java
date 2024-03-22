@@ -2,7 +2,7 @@ package org.xrgames.ruta.services.client;
 
 import org.xrgames.ruta.services.Endpoint;
 import org.xrgames.ruta.services.LoginFormData;
-import org.xrgames.ruta.services.Result;
+import org.xrgames.ruta.services.AuthResult;
 import org.xrgames.ruta.services.SessionToken;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -23,7 +23,7 @@ public class ActiveClient {
 	public static final String SESSION_ID_KEY = "JSESSIONID";
 	
 	private String sessionId; 
-	private Result result;
+	private AuthResult result;
 	private Client client;
 
 	/**
@@ -31,7 +31,7 @@ public class ActiveClient {
 	 * inyector de dependencias.
 	 */
 	public ActiveClient() {
-		result = new Result();
+		result = new AuthResult();
 	}
 	
 	/**
@@ -39,8 +39,12 @@ public class ActiveClient {
 	 * @param url
 	 * @param entity
 	 * @return
+	 * @throws Exception 
 	 */
-	public Response post(String url, Object entity) {
+	public Response post(String url, Object entity) throws Exception {
+		if(null == this.sessionId || null == client) {
+			throw new Exception("Debe autenticarse antes de hacer peticiones");
+		}
 		WebTarget webTarget = client.target(url);
 		var postData = Entity.entity(entity, MediaType.APPLICATION_JSON);
 		Invocation.Builder builder = webTarget.request(MediaType.APPLICATION_JSON);
@@ -72,7 +76,7 @@ public class ActiveClient {
 	 * Autentica un usuario de nombre test 
 	 * @return
 	 */
-	public Result auth() {
+	public AuthResult auth() {
 		return auth("test");
 	}
 
@@ -80,9 +84,9 @@ public class ActiveClient {
 	 * Obtiene una sesion para el usuario con el username actual.
 	 * @return
 	 */
-	public Result auth(String username) {
+	public AuthResult auth(String username) {
 		var url = Endpoint.build(Endpoint.ENDPOINT_LOGIN);
-		result = new Result();
+		result = new AuthResult();
 
 		client = ClientBuilder.newClient();
 
@@ -121,7 +125,7 @@ public class ActiveClient {
 		var res = post(url, null);
 		
 		if(res.getStatus() == Response.Status.OK.getStatusCode()) {
-			this.result = new Result();
+			this.result = new AuthResult();
 			return true;
 		}
 		

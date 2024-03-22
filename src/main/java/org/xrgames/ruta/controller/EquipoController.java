@@ -61,24 +61,6 @@ public class EquipoController {
 		
 		return Result.notAcceptable();
 	}
-	
-	@POST
-	@Path("/join/{id}")
-	public Response join(@QueryParam("id") int id) {
-		if (sec.isAnonimous()) {
-			return Result.forbiden();
-		}
-		
-		var juego = service.current(); 
-		var equipos = juego.getEquipos();
-		var equipo = equipos.get(String.valueOf(id));
-		
-		if(null == equipo) {
-			return Result.notFound();
-		}
-		
-		return null;
-	}
 
 	@DELETE
 	public Response delete(@QueryParam("id") int id) {

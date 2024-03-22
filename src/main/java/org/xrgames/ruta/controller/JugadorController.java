@@ -2,6 +2,7 @@ package org.xrgames.ruta.controller;
 
 import java.util.LinkedList;
 
+import org.xrgames.ruta.services.JuegoService;
 import org.xrgames.ruta.services.LoginFormData;
 import org.xrgames.ruta.services.Security;
 
@@ -11,11 +12,15 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/jugador")
 public class JugadorController {
+	
+	@Inject 
+	public JuegoService juegoService;
 	
 	@Inject
 	public Security sec;
@@ -45,5 +50,28 @@ public class JugadorController {
 			return Response.ok().build();
 		}
 		return Response.serverError().build();
+	}
+	
+	/**
+	 * Une al jugador a un juego.
+	 * @param id
+	 * @return
+	 */
+	@POST
+	@Path("/join/{id}")
+	public Response join(@QueryParam("id") int id) {
+		if (sec.isAnonimous()) {
+			return Result.forbiden();
+		}
+		
+		var juego = juegoService.current(); 
+		var equipos = juego.getEquipos();
+		var equipo = equipos.get(String.valueOf(id));
+		
+		if(null == equipo) {
+			return Result.notFound();
+		}
+		
+		return null;
 	}
 }
