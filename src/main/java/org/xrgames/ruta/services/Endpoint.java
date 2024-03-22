@@ -4,9 +4,11 @@ import java.text.MessageFormat;
 
 public class Endpoint {
 	
-	static public final String ENDPOINT_LOGIN = "jugador/login";
-	static public final String ENDPOINT_LOGOUT = "jugador/logout";
-	static public final String ENDPOINT_JUEGO_CREATE = "juego/create";
+	static public final String LOGIN = "jugador/login";
+	static public final String LOGOUT = "jugador/logout";
+	static public final String JUEGO_CREATE = "juego/create";
+	static public final String JUEGO_JOIN = "jugador/join";
+	static public final String EQUIPO_CREATE = "equipo/create";
 	
 	static final String PROTOCOL = "http";
 	static final String HOST = "localhost";
@@ -22,6 +24,16 @@ public class Endpoint {
 		this.base = base;
 	}
 	
+	public static String build(String ...arguments) {
+		var builder = new StringBuilder();
+		for(String arg: arguments) {
+			arg = removeSlashAtStart(arg);
+			builder.append(arg);
+		}
+		var base = builder.toString();
+		return build(base);
+	}
+	
 	public static String build(String base) {
 		if(base.substring(0, 1).equals("/")) {
 			base = base.substring(1);
@@ -35,5 +47,16 @@ public class Endpoint {
 	
 	public String toString() {
 		return url;
+	}
+	
+	/**
+	 * @param value
+	 * @return
+	 */
+	private static String removeSlashAtStart(String value) {
+		if(value.substring(0, 1).equals("/")) {
+			value = value.substring(1);
+		}
+		return value;
 	}
 }

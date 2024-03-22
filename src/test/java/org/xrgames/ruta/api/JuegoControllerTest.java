@@ -8,7 +8,7 @@ import org.xrgames.ruta.services.client.JuegoClient;
 
 public class JuegoControllerTest {
 	@Test
-	public void createTest() {
+	public void createTest() throws Exception {
 		ActiveClient client = new ActiveClient();
 		assertTrue(client.auth("test").isSome());
 		
@@ -16,6 +16,4 @@ public class JuegoControllerTest {
 		JuegoClient service = new JuegoClient(client);
 		assertTrue(service.create());
 	}
-	
-	
 }

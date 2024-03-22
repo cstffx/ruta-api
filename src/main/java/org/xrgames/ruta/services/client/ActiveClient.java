@@ -96,7 +96,7 @@ public class ActiveClient {
 	 * @return
 	 */
 	public AuthResult auth(String username) {
-		var url = Endpoint.build(Endpoint.ENDPOINT_LOGIN);
+		var url = Endpoint.build(Endpoint.LOGIN);
 		result = new AuthResult();
 
 		client = ClientBuilder.newClient();
@@ -133,7 +133,7 @@ public class ActiveClient {
 			return false;
 		}
 		
-		var url = Endpoint.build(Endpoint.ENDPOINT_LOGOUT);
+		var url = Endpoint.build(Endpoint.LOGOUT);
 		var res = post(url, null);
 		
 		if(res.getStatus() == Response.Status.OK.getStatusCode()) {

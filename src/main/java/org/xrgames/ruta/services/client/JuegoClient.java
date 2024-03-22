@@ -33,18 +33,23 @@ public class JuegoClient {
 	/**
 	 * Crea un juego con la configuracion por defecto.
 	 * @return
+	 * @throws Exception 
 	 */
-	public boolean create() {
+	public boolean create() throws Exception {
 		return create(new ConfiguracionJuego());
 	}
 
 	/**
 	 * Crea un nuevo juego
 	 * @return
+	 * @throws Exception 
 	 */
-	public boolean create(ConfiguracionJuego config) {
-		var url = Endpoint.build(Endpoint.ENDPOINT_JUEGO_CREATE);
+	public boolean create(ConfiguracionJuego config) throws Exception {
+		var url = Endpoint.build(Endpoint.JUEGO_CREATE);
 		var res = activeClient.post(url, config);
+		
+		System.err.println(res.readEntity(String.class));
+		
 		return ResponseUtil.isOk(res);
 	}
 }
