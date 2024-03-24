@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,32 @@ import org.xrgames.ruta.util.RandomPlayers;
 import jakarta.ws.rs.core.Response;
 
 public class JuegoResourceTest {
+
+	@Test
+	@DisplayName("El servicio debe mostrar una lista de juegos activos")
+	void getAll() throws Exception {
+		// Cantidad de juegos que se van a crear
+		int createCount = 10;
+
+		// Eliminar todos los juegos y usuarios activos.
+		var http = HttpClient.make();
+		var response = http.post(Endpoint.of(Route.SERVER_RESET));
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+
+		// Registrar 10 juegos.
+		for (int i = 0; i < createCount; i++) {
+			TestUtil.crearJuego();
+		}
+
+		// Obtener información para otro usuario registrado
+		http = HttpClient.forUser().unwrap();
+		response = http.get(Endpoint.of(Route.JUEGO));
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+
+		// Comprobar la cantidad de juegos creados.
+		var juegos = response.readEntity(ArrayList.class);
+		assertEquals(createCount, juegos.size());
+	}
 
 	@Test
 	@DisplayName("Comprobar creación del juego")
@@ -74,11 +101,11 @@ public class JuegoResourceTest {
 
 		// Crear otro juego con usuario 2.
 		var http2 = HttpClient.forUser().unwrap();
-	    response = http2.post(Endpoint.of(Route.JUEGO_CREATE), formData);
+		response = http2.post(Endpoint.of(Route.JUEGO_CREATE), formData);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 		var juego2Id = response.readEntity(String.class);
 		assertTrue(juego2Id.length() > 0);
-		
+
 		// Intentar que el usuario 1 lo termine.
 		response = http.post(Endpoint.of(Route.JUEGO_END, juego2Id), formData);
 		assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
@@ -90,53 +117,49 @@ public class JuegoResourceTest {
 		// El jugador 2 intenta terminar un juego ya terminado.
 		response = http2.post(Endpoint.of(Route.JUEGO_END, juego2Id), formData);
 		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
-		
+
 		// El jugador 1 intenta terminar un juego yar terminado.
 		response = http.post(Endpoint.of(Route.JUEGO_END, juegoId), formData);
 		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
 	}
+
+	@Test
+	@DisplayName("El usuario no puede unirse a un juego que no existe.")
+	void joinNotFoundTest() throws Exception {
+		// Registramos un usuario.
+		var http = HttpClient.forUser().unwrap();
+
+		// Unimos al usuario a un juego que no existe.
+		var result = http.post(Endpoint.of(Route.JUEGO_JOIN, "invalid_id"));
+		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), result.getStatus());
+	}
+
 	
 	@Test
-	@DisplayName("El servicio debe mostrar una lista de juegos activos")
-	void getAll() throws Exception {
-		// Cantidad de juegos que se van a crear
-		int createCount = 10;
-		
-		// Eliminar todos los juegos y usuarios activos.
-		var http = HttpClient.make();
-		var response = http.post(Endpoint.of(Route.SERVER_RESET));
-		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		
-		// Registrar 10 juegos.
-		for(int i = 0; i < createCount; i++) {
-			crearJuego();	
-		}		
-		
-		// Obtener información para otro usuario registrado 
-	    http = HttpClient.forUser().unwrap();
-		response = http.get(Endpoint.of(Route.JUEGO));
-		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		
-		// Comprobar la cantidad de juegos creados.
-		var juegos = response.readEntity(ArrayList.class);
-		assertEquals(createCount, juegos.size());
+	@DisplayName("El usuario puede unirse a un juego.")
+	void joinTest() throws Exception {
+		var creator = TestUtil.crearJuego();
+		var result = creator.http.post(Endpoint.of(Route.JUEGO_JOIN, creator.juegoId));
+		assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
 	}
-	
-	/**
-	 * Registra un nuevo usuario y crea un juego con configuración aleatoria.
-	 * @return El id del juego creado.
-	 * @throws Exception
+
+
+	/*
+	 * @Test
+	 * 
+	 * @DisplayName("El usuario no puede unirse a dos juegos simultáneamente.") void
+	 * joinDuplicatedTest() throws Exception { // Usuario 1 crea juego 1. var
+	 * juego1Creator = TestUtil.crearJuego(); // Usuario 2 crea juego 2. var
+	 * juego2Creator = TestUtil.crearJuego();
+	 * 
+	 * // Usuario 3 se registra. var http = HttpClient.forUser().unwrap();
+	 * 
+	 * // Usuario 3 se une correctamente al juego 1. var result =
+	 * http.post(Endpoint.of(Route.JUEGO_JOIN, juego1Creator.juegoId));
+	 * assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
+	 * 
+	 * // Usuario 3 se une al juego 2 y falla. result =
+	 * http.post(Endpoint.of(Route.JUEGO_JOIN, juego2Creator.juegoId));
+	 * assertEquals(Response.Status.FOUND.getStatusCode(), result.getStatus()); }
 	 */
-	String crearJuego() throws Exception {
-		var http = HttpClient.forUser().unwrap();
-		var formData = new ConfiguracionJuego();
-		
-		formData.jugadores = RandomPlayers.next();
-		formData.modo = RandomModo.next();
-		
-		var response = http.post(Endpoint.of(Route.JUEGO_CREATE), formData);
-		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		
-		return response.readEntity(String.class);
-	}
 }

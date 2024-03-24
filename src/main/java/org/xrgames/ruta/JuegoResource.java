@@ -29,6 +29,21 @@ public class JuegoResource {
 	UserRegistry registry;
 	
 	/**
+	 * Retorna una lista de los juegos disponibles.
+	 * @return
+	 * @throws Exception
+	 */
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response getAll() throws Exception {
+		if (session.isAnonimous()) {
+			return ResponseError.forbiden();
+		}
+		var items = juegoService.getAll();
+		return Response.ok(items).build();
+	}	
+	
+	/**
 	 * Crea un nuevo juego.
 	 * @param login
 	 * @return
@@ -53,7 +68,8 @@ public class JuegoResource {
 	
 	/**
 	 * Termina un juego en curso por su propietario.
-	 * @param login
+	 * 
+	 * @param id Id del juego
 	 * @return
 	 * @throws Exception
 	 */
@@ -72,19 +88,23 @@ public class JuegoResource {
 	}
 	
 	/**
-	 * Retorna una lista de los juegos disponibles.
+	 * Permite al usuario actual unirse a un juego.
+	 * 
+	 * @param id Id del juego.
 	 * @return
 	 * @throws Exception
 	 */
-	@GET
+	@POST
+	@Path("/join/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response getAll() throws Exception {
+	public Response join(@PathParam("id") String id) throws Exception {
 		if (session.isAnonimous()) {
 			return ResponseError.forbiden();
 		}
 		
-		var items = juegoService.getAll();
+		var user = registry.currentUser().unwrap();
+		var result = juegoService.join(id, user);
 		
-		return Response.ok(items).build();
-	}	
+		return ResponseBuilder.of(result);
+	}
 }

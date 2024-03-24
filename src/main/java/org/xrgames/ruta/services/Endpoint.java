@@ -18,6 +18,7 @@ public class Endpoint {
 		JUGADOR_LOGIN("jugador/login"), 
 		JUGADOR_LOGOUT("jugador/logout"),
 		JUEGO("juego"), 
+		JUEGO_JOIN("juego/join/{0}"),
 		JUEGO_CREATE("juego"), 
 		JUEGO_END("juego/end/{0}"), 
 		EQUIPO_JOIN("equipo/join/{0}"),
@@ -52,17 +53,23 @@ public class Endpoint {
 		}
 	}
 
+	/**
+	 * @param name
+	 * @param arguments
+	 * @throws Exception
+	 */
 	public Endpoint(Route name, Object... arguments) throws Exception {
 		var argsCount = name.countArgs();
-		if (arguments.length < argsCount) {
+		
+		if(arguments.length != argsCount) {
 			var url = name.toString();
-			var requeridos = String.valueOf(false);
+			var requeridos = String.valueOf(argsCount);
 			var recibidos = String.valueOf(arguments.length);
 			var message = "La ruta {0} require {1} agumento(s) pero se recibió {2}.";
 			message = MessageFormat.format(message, url, requeridos, recibidos);
 			throw new Exception(message);
 		}
-
+		
 		url = MessageFormat.format(name.toString(), arguments);
 		url = MessageFormat.format(PATTERN, PROTOCOL, HOST, String.valueOf(PORT), CONTEXT, url);
 	}
@@ -75,7 +82,7 @@ public class Endpoint {
 	public static String of(Route name, Object... arguments) throws Exception {
 		return (new Endpoint(name, arguments)).toString();
 	}
-
+	
 	public String toString() {
 		return url;
 	}

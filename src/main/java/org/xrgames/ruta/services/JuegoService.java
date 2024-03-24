@@ -89,4 +89,18 @@ public class JuegoService {
 	public void clear() {
 		juegos.clear();
 	}
+
+	/**
+	 * Une al usuario a un juego.
+	 * @param juegoId Id del juego
+	 * @param user Usuario
+	 * @return
+	 */
+	public Result<String, Exception> join(String juegoId, Usuario user) {
+		var juego = juegos.get(juegoId);
+		if(null == juego) {
+			return Result.of(new NotFoundException());
+		}
+		return null;
+	}
 }
