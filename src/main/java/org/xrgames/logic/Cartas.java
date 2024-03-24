@@ -8,9 +8,9 @@ import java.util.LinkedList;
  * @author user
  */
 public class Cartas {
-
-    public final static int ULTIMA_CARTA = -1;
-    private final LinkedList<Carta> cartas = new LinkedList();
+	
+	public final static int ULTIMA_CARTA = -1;
+    private final LinkedList<Carta> cartas = new LinkedList<>();
 
     public static LinkedList<Carta> transferMany(Cartas a, Cartas b, int size){
          LinkedList<Carta> cartas = new LinkedList<>();

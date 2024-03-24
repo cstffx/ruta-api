@@ -28,6 +28,20 @@ public class ConfiguracionJuego {
     	this.jugadores = jugadores;
     }
     
+    /**
+     * @return El modo de juego
+     */
+    public ModoJuego getModo() {
+    	return modo;
+    }
+    
+    /**
+     * @return La cantidad máxima de jugadores.
+     */
+    public int getJugadores() {
+    	return jugadores;
+    }
+    
 	/**
 	 * Calcula y retorna la cantidad posible de equipos
 	 * atendiendiendo a la configuración actual del juego.

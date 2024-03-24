@@ -61,5 +61,5 @@ public class Carta {
     public int getPuntuacionPorKilometros() {
         var kilometros = this.getKilometros();
         return Juego.PUNTOS_POR_KM * kilometros;
-    }
+    } 
 }

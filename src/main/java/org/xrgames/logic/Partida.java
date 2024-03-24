@@ -13,14 +13,37 @@ public class Partida {
     private final Mazo mazo;
     private final LinkedList<Jugador> jugadores = new LinkedList<>();
 
+    /**
+     * Contruye una nueva partidad con un mazo.
+     */
     public Partida() {
         mazo = new Mazo();
     }
 
+    /**
+     * @return Lista de jugadores.
+     */
     public LinkedList<Jugador> getJugadores() {
         return jugadores;
     }
 
+    /**
+     * Retorna la cantidad de jugadores en un equipo.
+     * @param id
+     */
+    public int contarJugadoresPorEquipo(int id) {
+    	int result = 0;
+    	for(Jugador jugador: jugadores) {
+    		if(jugador.getEquipo() == id) {
+    			++result;
+    		}
+    	}
+    	return result;
+    }
+    
+    /**
+     * @return El mazo actual de la partida.
+     */
     public Mazo getMazo() {
         return mazo;
     }

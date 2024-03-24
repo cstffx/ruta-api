@@ -6,13 +6,12 @@ public class Debug {
 	
 	public static void debug(Response response) {
 		debug(response.readEntity(String.class));
-		System.exit(1);
 	}
 	
 	public static void debug(Object ...arguments) {
 		StringBuilder builder = new StringBuilder();
 		for(Object arg: arguments) {
-			builder.append(arg.toString());
+			builder.append(String.valueOf(arg));
 		}
 		System.err.println(builder.toString());
 	}
