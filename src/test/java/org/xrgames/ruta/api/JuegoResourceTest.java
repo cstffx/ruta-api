@@ -1,20 +1,19 @@
 package org.xrgames.ruta.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.xrgames.logic.ConfiguracionJuego;
+import org.xrgames.logic.Juego;
 import org.xrgames.logic.ModoJuego;
 import org.xrgames.ruta.services.Endpoint;
 import org.xrgames.ruta.services.Endpoint.Route;
 import org.xrgames.ruta.services.client.HttpClient;
-import org.xrgames.ruta.util.RandomModo;
-import org.xrgames.ruta.util.RandomPlayers;
 
 import jakarta.ws.rs.core.Response;
 
@@ -130,21 +129,28 @@ public class JuegoResourceTest {
 		var http = HttpClient.forUser().unwrap();
 
 		// Unimos al usuario a un juego que no existe.
-		var result = http.post(Endpoint.of(Route.JUEGO_JOIN, "invalid_id"));
+		var result = http.post(Endpoint.of(Route.JUEGO_JOIN, "invalid_id", "0"));
 		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), result.getStatus());
 	}
 
-	
-	/**
 	@Test
-	@DisplayName("El usuario puede unirse a un juego.")
+	@DisplayName("El usuario puede unirse a un juego en modalidad individual.")
 	void joinTest() throws Exception {
-		var creator = TestUtil.crearJuego();
-		var result = creator.http.post(Endpoint.of(Route.JUEGO_JOIN, creator.juegoId));
+		// Creamos un juego.
+		var http = HttpClient.forUser().unwrap();
+		var formData = new ConfiguracionJuego(ModoJuego.Individual, Juego.MAX_JUGADORES);
+		var response = http.post(Endpoint.of(Route.JUEGO_CREATE), formData);
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		
+		var juegoId = response.readEntity(String.class);
+		assertNotNull(juegoId);
+		
+		// Usamos 0 cuando el id del equipo no importa. 
+		// Los jugadores en un juego individual se unen al siguiente equipo
+		// disponible. 
+		var result = http.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, 0));
 		assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
 	}
-	*/
-
 
 	/*
 	 * @Test

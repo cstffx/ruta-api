@@ -18,7 +18,7 @@ public class Endpoint {
 		JUGADOR_LOGIN("jugador/login"), 
 		JUGADOR_LOGOUT("jugador/logout"),
 		JUEGO("juego"), 
-		JUEGO_JOIN("juego/join/{0}"),
+		JUEGO_JOIN("juego/join/{0}/{0}"),
 		JUEGO_CREATE("juego"), 
 		JUEGO_END("juego/end/{0}"), 
 		EQUIPO_JOIN("equipo/join/{0}"),
