@@ -1,22 +1,37 @@
 package org.xrgames.logic;
 
+import org.xrgames.ruta.util.Jugadores;
+
 /**
  * Representa un equipo del juego.
  */
 public class Equipo {
+	
 	public int id;
+	
 	public String nombre;
 	
-	public Equipo() {
+	public Jugadores jugadores = new Jugadores();
+	
+	public Equipo() {		
+		id = 0;
 		nombre = "";
 	}
 	
-	public Equipo(int i) {
-		nombre = String.valueOf(i);
-	}
-	
+	/**
+	 * @param id
+	 * @param nombre
+	 */
 	public Equipo(int id, String nombre) {
 		this.id = id;
 		this.nombre = nombre;
+	}
+	
+	/**
+	 * Retorna los jugadores que pertenecen al equipo.
+	 * @return
+	 */
+	public Jugadores getJugadores() {
+		return jugadores;
 	}
 }

@@ -7,7 +7,7 @@ import org.xrgames.logic.ConfiguracionJuego;
 import org.xrgames.logic.Juego;
 import org.xrgames.ruta.dto.JuegoInfo;
 import org.xrgames.ruta.entity.Usuario;
-import org.xrgames.ruta.util.JuegoMap;
+import org.xrgames.ruta.util.Juegos;
 import org.xrgames.ruta.util.Option;
 import org.xrgames.ruta.util.Result;
 
@@ -22,7 +22,7 @@ public class JuegoService {
 	/**
 	 * HashMap de juegos registrados.
 	 */
-	private JuegoMap juegos = new JuegoMap();
+	private Juegos juegos = new Juegos();
 	
 	/**
 	 * Encuentra un juego por su propietario.
@@ -65,7 +65,7 @@ public class JuegoService {
 			return Result.of(new NotFoundException());
 		}
 		
-		if(juego.getOwner().unwrap() != performer) {
+		if(juego.getOwner() != performer) {
 			return Result.of(new AccessDeniedException());
 		}
 		
@@ -96,7 +96,7 @@ public class JuegoService {
 	 * @param user Usuario
 	 * @return
 	 */
-	public Result<String, Exception> join(String juegoId, Usuario user) {
+	public Result<String, Exception> join(String juegoId, int equipoId, Usuario user) {
 		var juego = juegos.get(juegoId);
 		if(null == juego) {
 			return Result.of(new NotFoundException());

@@ -49,7 +49,7 @@ public class ConfiguracionJuego {
 	 */
 	public int getCantidadEquiposPosibles() {
 		if(modo == ModoJuego.Individual) {
-			return Juego.MAX_EQUIPOS;
+			return 0;
 		}
 		return jugadores / 2;
 	}

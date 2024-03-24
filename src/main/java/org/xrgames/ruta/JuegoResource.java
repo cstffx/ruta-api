@@ -95,15 +95,15 @@ public class JuegoResource {
 	 * @throws Exception
 	 */
 	@POST
-	@Path("/join/{id}")
+	@Path("/join/{juego}/{equipo}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response join(@PathParam("id") String id) throws Exception {
+	public Response join(@PathParam("juego") String juego, @PathParam("equipo") int equipo) throws Exception {
 		if (session.isAnonimous()) {
 			return ResponseError.forbiden();
 		}
 		
 		var user = registry.currentUser().unwrap();
-		var result = juegoService.join(id, user);
+		var result = juegoService.join(juego, equipo, user);
 		
 		return ResponseBuilder.of(result);
 	}

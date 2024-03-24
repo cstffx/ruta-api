@@ -5,14 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-import org.xrgames.logic.EquipoMap;
 import org.xrgames.logic.Juego;
+import org.xrgames.ruta.util.Equipos;
 
 public class EquipoCollectionTest {
 	
 	@Test
 	void getTest() throws Exception {
-		var collection = new EquipoMap(); 
+		var collection = new Equipos(); 
 		collection.put(1);
 		collection.put(2);
 		
@@ -29,7 +29,7 @@ public class EquipoCollectionTest {
 	
 	@Test 
 	void removeTest() {
-		var collection = new EquipoMap(); 
+		var collection = new Equipos(); 
 		collection.put("1");
 		collection.put("2");
 		
@@ -40,7 +40,7 @@ public class EquipoCollectionTest {
 	
 	@Test
 	void existsTest() {
-		var collection = new EquipoMap(); 
+		var collection = new Equipos(); 
 		collection.put("1");
 		collection.put("2");
 		
@@ -52,7 +52,7 @@ public class EquipoCollectionTest {
 	@Test 
 	void putEquipoTest() {
 		// Probar cantidad por defecto.
-		var collection = new EquipoMap();
+		var collection = new Equipos();
 		int i = Juego.MAX_EQUIPOS;
 		while(i > 0) {
 			collection.put(String.valueOf(i));

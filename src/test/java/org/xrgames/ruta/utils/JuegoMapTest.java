@@ -8,23 +8,22 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.xrgames.logic.Juego;
 import org.xrgames.ruta.entity.Usuario;
-import org.xrgames.ruta.util.JuegoMap;
+import org.xrgames.ruta.util.Juegos;
 import org.xrgames.ruta.util.UsernameFactory;
 
 public class JuegoMapTest {
 	@Test
 	public void getTest() throws Exception {
-		JuegoMap map = new JuegoMap();
+		Juegos map = new Juegos();
 		var usuario1 = Usuario.of(UsernameFactory.next());
-		var juego1 = new Juego();
+		var juego1 = new Juego(usuario1);
 		
-		juego1.setOwner(usuario1);
-		map.put(UUID.randomUUID().toString(), juego1);
+		map.put(juego1);
 		
 		// Debe encontrar el juego por propietario.
 		var result = map.get(usuario1);
 		assertTrue(result.isSome());
-		assertEquals(usuario1, result.unwrap().getOwner().unwrap());
+		assertEquals(usuario1, result.unwrap().getOwner());
 		
 		// Debe indicar que tiene un juego registrado.
 		assertTrue(map.hasOne(usuario1));
@@ -32,12 +31,11 @@ public class JuegoMapTest {
 	
 	@Test
 	public void hasOneTest() throws Exception {
-		JuegoMap map = new JuegoMap();
+		Juegos map = new Juegos();
 		var usuario1 = Usuario.of(UsernameFactory.next());
-		var juego1 = new Juego();
+		var juego1 = new Juego(usuario1);
 		
-		juego1.setOwner(usuario1);
-		map.put(UUID.randomUUID().toString(), juego1);
+		map.put(juego1);
 		
 		// Debe indicar que tiene un juego registrado.
 		assertTrue(map.hasOne(usuario1));

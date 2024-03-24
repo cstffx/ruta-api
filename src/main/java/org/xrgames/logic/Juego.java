@@ -1,6 +1,7 @@
 package org.xrgames.logic;
 
 import org.xrgames.ruta.entity.Usuario;
+import org.xrgames.ruta.util.Equipos;
 import org.xrgames.ruta.util.Option;
 
 /**
@@ -36,24 +37,21 @@ public final class Juego {
 	public static int MAX_JUGADOR_POR_EQUIPO = 2;
 	
     private final Partida partida;
-	public EquipoMap equipos = new EquipoMap();
+	public Equipos equipos = new Equipos();
 	
-	private Option<Usuario> owner;
+	private final Usuario owner;
 	private ConfiguracionJuego config;
 	
 	private boolean iniciado;
 
 	/**
-	 * Constructor por defecto.
+	 * Construye un juego con propietario y configuracion por defecto.
+	 * @param owner
 	 */
-    public Juego() {
-    	config = new ConfiguracionJuego();
-    	config.jugadores = 6;
-    	config.modo = ModoJuego.Individual;
-        partida = new Partida();
-        owner = Option.none();
-    }
-    
+	public Juego(Usuario owner) {
+		this(owner, new ConfiguracionJuego());
+	}
+	
     /**
      * Construye un juego con un propietario y configuración.
      * @param owner Propietario del juego.
@@ -61,8 +59,7 @@ public final class Juego {
      */
     public Juego(Usuario owner, ConfiguracionJuego config) {
     	this.config = config;
-    	this.owner = Option.of(owner);
-    	
+    	this.owner = owner;
     	partida = new Partida();
     }
 
@@ -131,7 +128,7 @@ public final class Juego {
 	 * Retorna todos los equipos del juego.
 	 * @return
 	 */
-	public EquipoMap  getEquipos() {
+	public Equipos  getEquipos() {
 		return equipos;
 	}
 	
@@ -143,17 +140,9 @@ public final class Juego {
 	}
 	
 	/**
-	 * Establece el propietario del juego.
-	 * @param owner
-	 */
-	public void setOwner(Usuario owner) {
-		this.owner = Option.of(owner);
-	}
-	
-	/**
 	 * @return Usuario propietario del juego.
 	 */
-	public Option<Usuario> getOwner() {
+	public Usuario getOwner() {
 		return owner;
 	}
 	

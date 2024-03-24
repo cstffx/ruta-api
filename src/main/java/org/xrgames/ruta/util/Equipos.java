@@ -1,20 +1,19 @@
-package org.xrgames.logic;
+package org.xrgames.ruta.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
+import org.xrgames.logic.Equipo;
+import org.xrgames.logic.Juego;
 import org.xrgames.ruta.response.EquipoDetalle;
 import org.xrgames.ruta.services.AlreadyExistsException;
 import org.xrgames.ruta.services.MaxTeamCountReached;
-import org.xrgames.ruta.util.Option;
-import org.xrgames.ruta.util.Result;
 
 /**
  * Map que almacena los equipos del juego.
  */
-public class EquipoMap extends HashMap<Integer, Equipo> {
+public class Equipos extends HashMap<Integer, Equipo> {
 
 	// Límite de equipos admitidos en la colección.
 	private int cantidadMaxima = Juego.MAX_EQUIPOS;
@@ -26,7 +25,7 @@ public class EquipoMap extends HashMap<Integer, Equipo> {
 	 * Constructor por defecto que establece a Juego.MAX_EQUIPOS la cantida máxima
 	 * de equipos aceptados.
 	 */
-	public EquipoMap() {
+	public Equipos() {
 		cantidadMaxima = Juego.MAX_EQUIPOS;
 	}
 
@@ -62,7 +61,7 @@ public class EquipoMap extends HashMap<Integer, Equipo> {
 	 * Constructor que permite establecer manualmente la cantidad máxima de equipos
 	 * aceptados
 	 */
-	public EquipoMap(int cantidadMaxima) {
+	public Equipos(int cantidadMaxima) {
 		this.cantidadMaxima = cantidadMaxima;
 	}
 

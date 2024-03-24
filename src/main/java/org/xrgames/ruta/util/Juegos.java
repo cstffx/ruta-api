@@ -3,6 +3,7 @@ package org.xrgames.ruta.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.xrgames.logic.Juego;
 import org.xrgames.ruta.dto.JuegoInfo;
@@ -11,7 +12,7 @@ import org.xrgames.ruta.entity.Usuario;
 /**
  * HashMap para contener todos los juegos registrados.
  */
-public class JuegoMap extends HashMap<String, Juego> {
+public class Juegos extends HashMap<String, Juego> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,6 +26,17 @@ public class JuegoMap extends HashMap<String, Juego> {
 	public boolean hasOne(Usuario owner) throws Exception {
 		return get(owner).isSome();
 	}
+	
+	/**
+	 * Coloca un juego en el HashMap con un id aleatorio.
+	 * @param juego
+	 * @return
+	 */
+	public Juego put(Juego juego) {
+		var key = UUID.randomUUID().toString();
+		put(key, juego);
+		return juego;
+	}
 
 	/**
 	 * Retorna un juego por su propietario.
@@ -36,7 +48,7 @@ public class JuegoMap extends HashMap<String, Juego> {
 	public Option<Juego> get(Usuario owner) throws Exception {
 		for (Map.Entry<String, Juego> entry : entrySet()) {
 			Juego juego = entry.getValue();
-			var juegoOwner = juego.getOwner().unwrap();
+			var juegoOwner = juego.getOwner();
 			if (juegoOwner == owner) {
 				return Option.of(juego);
 			}
@@ -56,7 +68,7 @@ public class JuegoMap extends HashMap<String, Juego> {
 			var info = new JuegoInfo();
 			var partida = juego.getPartida(); 
 			var configuracion = juego.getConfig(); 
-			var owner = juego.getOwner().unwrap();
+			var owner = juego.getOwner();
 			
 			info.owner = owner.getUsername();
 			info.jugadores = partida.getJugadores().size();
