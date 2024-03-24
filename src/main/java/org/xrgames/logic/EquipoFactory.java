@@ -10,7 +10,8 @@ public class EquipoFactory {
 	 * Crea los equipos del juego según la configuración.
 	 * @param juego
 	 */
-	public void make(Juego juego) {
+	public static void build(Juego juego) {
+		
 		var config = juego.getConfig(); 
 		var cantidad = config.getCantidadEquiposPosibles();
 		var equipos = juego.getEquipos();

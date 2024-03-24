@@ -12,6 +12,7 @@ import org.xrgames.ruta.util.Juegos;
 import org.xrgames.ruta.util.UsernameFactory;
 
 public class JuegoMapTest {
+	
 	@Test
 	public void getTest() throws Exception {
 		Juegos map = new Juegos();

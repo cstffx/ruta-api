@@ -60,6 +60,11 @@ public final class Juego {
     public Juego(Usuario owner, ConfiguracionJuego config) {
     	this.config = config;
     	this.owner = owner;
+    	
+		// Construir los equipos del juego
+		EquipoFactory.build(this);
+		
+    	// Construir la partida.
     	partida = new Partida();
     }
 
@@ -159,5 +164,14 @@ public final class Juego {
 	 */
 	public boolean getIniciado() {
 		return this.iniciado;
+	}
+	
+	/**
+	 * Unir a un jugador a un equipo del juego.
+	 * @param equipoId
+	 * @param jugador
+	 */
+	public void joinJugador(int equipoId, Jugador jugador) {
+		
 	}
 }

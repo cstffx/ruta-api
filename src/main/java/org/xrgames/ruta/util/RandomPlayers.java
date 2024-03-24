@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class RandomPlayers {
 	
-	static int[] jugadores = { 2, 3, 4, 6 };
+	public static int[] jugadores = { 2, 3, 4, 6 };
 	static Random rand = new Random();
 
 	public static int next() {

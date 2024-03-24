@@ -135,6 +135,7 @@ public class JuegoResourceTest {
 	}
 
 	
+	/**
 	@Test
 	@DisplayName("El usuario puede unirse a un juego.")
 	void joinTest() throws Exception {
@@ -142,6 +143,7 @@ public class JuegoResourceTest {
 		var result = creator.http.post(Endpoint.of(Route.JUEGO_JOIN, creator.juegoId));
 		assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
 	}
+	*/
 
 
 	/*

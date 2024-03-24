@@ -48,9 +48,15 @@ public class ConfiguracionJuego {
 	 * @return
 	 */
 	public int getCantidadEquiposPosibles() {
-		if(modo == ModoJuego.Individual) {
-			return 0;
+		if(jugadores == 2 || jugadores == 3) {
+			return jugadores;
 		}
-		return jugadores / 2;
+		
+		if(modo == ModoJuego.Individual) {
+			return jugadores;
+		}
+		
+		// caso de 4 y 6 jugadores por equipo. 
+		return jugadores / Juego.MAX_JUGADOR_POR_EQUIPO;
 	}
 }
