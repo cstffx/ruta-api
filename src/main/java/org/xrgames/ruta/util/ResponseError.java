@@ -31,7 +31,7 @@ public class ResponseError {
 		}
 		
 		if (exception instanceof FullGameObjectException) {
-			return Response.status(Response.Status.PRECONDITION_FAILED.getStatusCode(), exception.getMessage()).build();
+			return Response.status(Response.Status.REQUESTED_RANGE_NOT_SATISFIABLE.getStatusCode(), exception.getMessage()).build();
 		}
 
 		return error();

@@ -171,14 +171,28 @@ public class JuegoResourceTest {
 		var juegoId = response.readEntity(String.class);
 		assertNotNull(juegoId);
 		
+		var equipoId = "1";
+		
 		// Los jugadores en un juego por equipo se unen a un equipo por su id.
-		var result = http.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, "1"));
+		var result = http.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, equipoId));
 		assertEquals(Response.Status.OK.getStatusCode(), result.getStatus(), "Unirse a un juego por equipo retorna 200 OK");
 	
-		// Intentar unirse a un equipo que no existe debe fallar
+		// Intentar unirse a un equipo que no existe debe fallar.
 		http = HttpClient.forUser().unwrap();
 		result = http.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, "20"));
 		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), result.getStatus(), "Unirse a un equipo que no existe retorna 404 Not Found");
+	
+		// Intentar unirse a un equipo completo debe fallar.
+		
+		// Unimos a jugador 2
+		http = HttpClient.forUser().unwrap();
+		result = http.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, equipoId));
+		assertEquals(Response.Status.OK.getStatusCode(), result.getStatus());
+		
+		// Unir a jugador 3 debe fallar. Equipo completo
+		http = HttpClient.forUser().unwrap();
+		result = http.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, equipoId));
+		assertEquals(Response.Status.REQUESTED_RANGE_NOT_SATISFIABLE.getStatusCode(), result.getStatus());
 	}
 
 	@Test
