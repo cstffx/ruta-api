@@ -22,4 +22,6 @@ test:
 	mvn package -Dmaven.test.skip
 	asadmin undeploy ruta
 	asadmin deploy --name ruta /home/user/eclipse-workspace/ruta/target/ruta.war
-	mvn test -Dmaven.package.skip
+	#mvn test -Dmaven.package.skip
+	mvn test-compile surefire:test
+	

@@ -1,8 +1,10 @@
 package org.xrgames.logic;
 
 import org.xrgames.ruta.entity.Usuario;
+import org.xrgames.ruta.services.FullGameException;
 import org.xrgames.ruta.util.Equipos;
 import org.xrgames.ruta.util.Option;
+import org.xrgames.ruta.util.Result;
 
 /**
  * Mantiene el estado actual del juego
@@ -133,7 +135,7 @@ public final class Juego {
 	 * Retorna todos los equipos del juego.
 	 * @return
 	 */
-	public Equipos  getEquipos() {
+	public Equipos getEquipos() {
 		return equipos;
 	}
 	
@@ -170,8 +172,32 @@ public final class Juego {
 	 * Unir a un jugador a un equipo del juego.
 	 * @param equipoId
 	 * @param jugador
+	 * @throws Exception 
 	 */
-	public void joinJugador(int equipoId, Jugador jugador) {
+	public Result<Integer, Exception> joinJugador(int equipoId, Jugador jugador) throws Exception {
+		var config = getConfig();
 		
+		// Unir un jugador en una partida individual.
+		if(config.isIndividual()) {
+			var equipos = getEquipos();
+			
+			// Recuperamos el siguiente equipo vacío.
+			var siguienteVacio = equipos.buscarVacio();
+			if(siguienteVacio.isSome()) {
+				var equipo = siguienteVacio.unwrap();
+				equipo.getJugadores().put(jugador.getUsuario().id, jugador);
+				return Result.of(equipo.id);
+			}else {
+				// Juego lleno.
+				return Result.of(new FullGameException());
+			}
+		}else {
+			throw new Exception();
+		}
+		
+		// Unir jugador a una partida por equipos. 
+		//var equipos = getEquipos();
+		
+		//return null;
 	}
 }

@@ -34,4 +34,11 @@ public class Equipo {
 	public Jugadores getJugadores() {
 		return jugadores;
 	}
+	
+	/**
+	 * @return True si el equipo no contiene jugadores.
+	 */
+	public boolean isEmpty() {
+		return jugadores.size() == 0;
+	}
 }

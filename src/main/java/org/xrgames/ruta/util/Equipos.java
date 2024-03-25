@@ -127,4 +127,18 @@ public class Equipos extends HashMap<Integer, Equipo> {
 		}
 		return result;
 	}
+
+	/**
+	 * Encuentra el primer equipo vacío.
+	 * @return El equipo vacío encontrado.
+	 */
+	public Option<Equipo> buscarVacio() {
+		for (Map.Entry<Integer, Equipo> entry : entrySet()) {
+			var equipo = entry.getValue();
+			if(equipo.isEmpty()) {
+				return Option.of(equipo);
+			}
+		}
+		return Option.none();
+	}
 }

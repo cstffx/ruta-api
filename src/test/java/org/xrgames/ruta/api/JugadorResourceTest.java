@@ -54,7 +54,8 @@ public class JugadorResourceTest {
 		var exists = false;
 		var iterator = users.listIterator();
 		while(iterator.hasNext()) {
-			LinkedHashMap<Object, Object> user = (LinkedHashMap<Object, Object>) iterator.next();
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> user = (LinkedHashMap<String, Object>) iterator.next();
 			if(user.get("username").equals(username)) {
 				exists = true;
 				break;

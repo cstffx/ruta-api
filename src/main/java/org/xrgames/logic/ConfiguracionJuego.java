@@ -59,4 +59,11 @@ public class ConfiguracionJuego {
 		// caso de 4 y 6 jugadores por equipo. 
 		return jugadores / Juego.MAX_JUGADOR_POR_EQUIPO;
 	}
+	
+	/**
+	 * @return True si el modo de juego es individual.
+	 */
+	public boolean isIndividual() {
+		return modo == ModoJuego.Individual;
+	}
 }

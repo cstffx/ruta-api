@@ -1,5 +1,6 @@
  - El juego debe crear una lista de equipos al iniciar
  - Unirse a un equipo de un juego. 
+ - Unirse a un juego individual
  - Abandonar un juego. 
  - Iniciar un juego.
  - Consultar cola de eventos.

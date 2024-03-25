@@ -2,12 +2,16 @@ package org.xrgames.logic;
 
 import java.util.LinkedList;
 
+import org.xrgames.ruta.entity.Usuario;
+
 /**
  * Representa un jugador asociado a un equipo 
  * con su mano sus puntos actuales y acumulados.
  */
 public class Jugador {
 
+	private final Usuario usuario;
+	
     /**
      * ID del equipo del jugador
      */
@@ -48,8 +52,18 @@ public class Jugador {
      * Constructor que asocia al jugador con un equipo.
      * @param equipo
      */
+    public Jugador(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+    @Deprecated
+    /**
+     * Constructor que asocia al jugador con un equipo.
+     * @param equipo
+     */
     public Jugador(int equipo) {
-        this.equipo = equipo;
+    	this.equipo = equipo;
+		this.usuario = new Usuario();
     }
     
     /**
@@ -277,5 +291,12 @@ public class Jugador {
      */
     public int getCantidadJuegosGanados() {
     	return juegosGanados;
+    }
+    
+    /**
+     * @return El usuario asociado al jugador.
+     */
+    public Usuario getUsuario() {
+    	return usuario;
     }
 }

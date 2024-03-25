@@ -1,6 +1,7 @@
 package org.xrgames.ruta.util;
 
 import org.xrgames.ruta.services.AccessDeniedException;
+import org.xrgames.ruta.services.AlreadyJoined;
 import org.xrgames.ruta.services.NotFoundException;
 
 import jakarta.ws.rs.core.Response;
@@ -16,6 +17,10 @@ public class ResponseError {
 	 * @return
 	 */
 	public static Response status(Exception exception) {
+		if(exception instanceof AlreadyJoined) {
+			return found();
+		}
+		
 		if (exception instanceof NotFoundException) {
 			return notFound();
 		}

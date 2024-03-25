@@ -2,6 +2,9 @@ package org.xrgames.ruta.entity;
 
 import java.util.UUID;
 
+import org.xrgames.logic.Juego;
+import org.xrgames.ruta.util.Option;
+
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -14,6 +17,11 @@ public class Usuario {
 	
 	@NotNull
 	public String username;
+	
+	/**
+	 * Referencia al posible juego actual del usuario.
+	 */
+	public Option<Juego> juego = Option.none();
 	
 	public Usuario() {
 		
@@ -49,5 +57,19 @@ public class Usuario {
 	 */
 	public String getUsername() {
 		return username;
+	}
+	
+	/**
+	 * @return
+	 */
+	public Option<Juego> getJuego() {
+		return juego;
+	}
+	
+	/**
+	 * @param juego
+	 */
+	public void setJuego(Option<Juego> juego) {
+		this.juego = juego;
 	}
 }	

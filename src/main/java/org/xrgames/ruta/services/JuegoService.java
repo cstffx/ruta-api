@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.xrgames.logic.ConfiguracionJuego;
 import org.xrgames.logic.Juego;
+import org.xrgames.logic.Jugador;
+import org.xrgames.logic.ModoJuego;
 import org.xrgames.ruta.dto.JuegoInfo;
 import org.xrgames.ruta.entity.Usuario;
 import org.xrgames.ruta.util.Juegos;
@@ -95,12 +97,26 @@ public class JuegoService {
 	 * @param juegoId Id del juego
 	 * @param user Usuario
 	 * @return
+	 * @throws Exception 
 	 */
-	public Result<String, Exception> join(String juegoId, int equipoId, Usuario user) {
+	public Result<String, Exception> join(String juegoId, int equipoId, Usuario usuario) throws Exception {
+		
+		if(usuario.getJuego().isSome()) {
+			return Result.of(new AlreadyJoined());
+		}
+		
 		var juego = juegos.get(juegoId);
 		if(null == juego) {
 			return Result.of(new NotFoundException());
 		}
-		return null;
+		
+		var jugador = new Jugador(usuario);
+		var result = juego.joinJugador(equipoId, jugador);
+		
+		if(result.isOk()) {
+			usuario.setJuego(Option.of(juego));
+		}
+		
+		return Result.of(juegoId);
 	}
 }
