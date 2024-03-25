@@ -192,12 +192,11 @@ public final class Juego {
 				return Result.of(new FullGameException());
 			}
 		}else {
+			// Unir jugador a una partida por equipos. 
+			var equipos = getEquipos();
+			
+			
 			throw new Exception();
-		}
-		
-		// Unir jugador a una partida por equipos. 
-		//var equipos = getEquipos();
-		
-		//return null;
+		}		
 	}
 }

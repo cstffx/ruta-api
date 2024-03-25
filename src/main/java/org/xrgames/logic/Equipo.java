@@ -41,4 +41,19 @@ public class Equipo {
 	public boolean isEmpty() {
 		return jugadores.size() == 0;
 	}
+	
+	/**
+	 * @return True si el equipo está lleno
+	 */
+	public boolean isFull() {
+		return jugadores.size() == Juego.MAX_JUGADOR_POR_EQUIPO;
+	}
+	
+	/**
+	 * Agrega un jugador al equipo.
+	 * @param jugador
+	 */
+	public void addJugador(Jugador jugador) {
+		jugadores.put(jugador.getUsuario().id, jugador);
+	}
 }
