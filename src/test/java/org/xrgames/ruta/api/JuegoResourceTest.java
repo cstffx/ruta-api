@@ -12,12 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.xrgames.logic.ConfiguracionJuego;
 import org.xrgames.logic.Juego;
 import org.xrgames.logic.ModoJuego;
-import org.xrgames.ruta.services.Debug;
 import org.xrgames.ruta.services.Endpoint;
 import org.xrgames.ruta.services.Endpoint.Route;
 import org.xrgames.ruta.services.client.HttpClient;
-import org.xrgames.ruta.util.RandomModo;
-import org.xrgames.ruta.util.RandomPlayers;
 
 import jakarta.ws.rs.core.Response;
 
@@ -174,12 +171,14 @@ public class JuegoResourceTest {
 		var juegoId = response.readEntity(String.class);
 		assertNotNull(juegoId);
 		
-		/*
-		// Usamos 0 cuando el id del equipo no importa.
-		// Los jugadores en un juego individual se unen al siguiente equipo disponible.
-		var result = http.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, "0"));
-		assertEquals(Response.Status.OK.getStatusCode(), result.getStatus(), "Unirse a un juego individual");
-		*/
+		// Los jugadores en un juego por equipo se unen a un equipo por su id.
+		var result = http.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, "1"));
+		assertEquals(Response.Status.OK.getStatusCode(), result.getStatus(), "Unirse a un juego por equipo retorna 200 OK");
+	
+		// Intentar unirse a un equipo que no existe debe fallar
+		http = HttpClient.forUser().unwrap();
+		result = http.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, "20"));
+		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), result.getStatus(), "Unirse a un equipo que no existe retorna 404 Not Found");
 	}
 
 	@Test

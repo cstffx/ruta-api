@@ -115,8 +115,9 @@ public class JuegoService {
 		
 		if(result.isOk()) {
 			usuario.setJuego(Option.of(juego));
+			return Result.of(juegoId);
 		}
 		
-		return Result.of(juegoId);
+		return Result.of(result.getError());
 	}
 }

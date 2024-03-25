@@ -2,6 +2,7 @@ package org.xrgames.ruta.util;
 
 import org.xrgames.ruta.services.AccessDeniedException;
 import org.xrgames.ruta.services.AlreadyJoined;
+import org.xrgames.ruta.services.FullGameObjectException;
 import org.xrgames.ruta.services.NotFoundException;
 
 import jakarta.ws.rs.core.Response;
@@ -27,6 +28,10 @@ public class ResponseError {
 
 		if (exception instanceof AccessDeniedException) {
 			return unauthorized();
+		}
+		
+		if (exception instanceof FullGameObjectException) {
+			return Response.status(Response.Status.PRECONDITION_FAILED.getStatusCode(), exception.getMessage()).build();
 		}
 
 		return error();
