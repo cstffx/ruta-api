@@ -4,6 +4,7 @@ import org.xrgames.ruta.services.AccessDeniedException;
 import org.xrgames.ruta.services.AlreadyJoined;
 import org.xrgames.ruta.services.FullGameObjectException;
 import org.xrgames.ruta.services.NotFoundException;
+import org.xrgames.ruta.services.OperationNotAllowed;
 
 import jakarta.ws.rs.core.Response;
 
@@ -33,7 +34,11 @@ public class ResponseError {
 		if (exception instanceof FullGameObjectException) {
 			return Response.status(Response.Status.REQUESTED_RANGE_NOT_SATISFIABLE.getStatusCode(), exception.getMessage()).build();
 		}
-
+				
+		if (exception instanceof OperationNotAllowed) {
+			return Response.status(Response.Status.METHOD_NOT_ALLOWED.getStatusCode(), exception.getMessage()).build();
+		}
+		
 		return error();
 	}
 

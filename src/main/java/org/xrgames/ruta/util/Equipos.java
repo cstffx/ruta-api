@@ -2,12 +2,16 @@ package org.xrgames.ruta.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.xrgames.logic.Equipo;
 import org.xrgames.logic.Juego;
+import org.xrgames.logic.Jugador;
+import org.xrgames.logic.ModoJuego;
 import org.xrgames.ruta.response.EquipoDetalle;
 import org.xrgames.ruta.services.AlreadyExistsException;
+import org.xrgames.ruta.services.Debug;
 import org.xrgames.ruta.services.MaxTeamCountReached;
 
 /**
@@ -31,10 +35,11 @@ public class Equipos extends HashMap<Integer, Equipo> {
 
 	/**
 	 * Retorna un equipo por su nombre.
+	 * 
 	 * @param nombre
 	 * @return
 	 */
-	public Option<Equipo> get(String nombre){
+	public Option<Equipo> get(String nombre) {
 		for (Map.Entry<Integer, Equipo> entry : entrySet()) {
 			var equipo = entry.getValue();
 			if (equipo.nombre.equals(nombre)) {
@@ -43,20 +48,21 @@ public class Equipos extends HashMap<Integer, Equipo> {
 		}
 		return Option.none();
 	}
-	
+
 	/**
 	 * Retorna un equipo por su id.
+	 * 
 	 * @param id
 	 * @return
 	 */
-	public Option<Equipo> get(int id){
+	public Option<Equipo> get(int id) {
 		var equipo = super.get(id);
-		if(null == equipo) {
+		if (null == equipo) {
 			return Option.none();
 		}
 		return Option.of(equipo);
 	}
-	
+
 	/**
 	 * Constructor que permite establecer manualmente la cantidad máxima de equipos
 	 * aceptados
@@ -88,6 +94,7 @@ public class Equipos extends HashMap<Integer, Equipo> {
 
 	/**
 	 * Agrega un equipo a la colección.
+	 * 
 	 * @param nombre
 	 * @return
 	 * @return true si el equipo fue agregado. False si se excede la cantidad máxima
@@ -106,12 +113,13 @@ public class Equipos extends HashMap<Integer, Equipo> {
 
 		var id = size + 1;
 		super.put(id, new Equipo(id, nombre));
-		
+
 		return Result.of(id);
 	}
-	
+
 	/**
 	 * Retorna una lista de todos los equipos disponibles
+	 * 
 	 * @param juego
 	 * @return
 	 */
@@ -130,15 +138,66 @@ public class Equipos extends HashMap<Integer, Equipo> {
 
 	/**
 	 * Encuentra el primer equipo vacío.
+	 * 
 	 * @return El equipo vacío encontrado.
 	 */
 	public Option<Equipo> buscarVacio() {
 		for (Map.Entry<Integer, Equipo> entry : entrySet()) {
 			var equipo = entry.getValue();
-			if(equipo.isEmpty()) {
+			if (equipo.isEmpty()) {
 				return Option.of(equipo);
 			}
 		}
 		return Option.none();
+	}
+
+	/**
+	 * Determina si todos los equipos están completos.
+	 */
+	public boolean isFull(ModoJuego modo) {
+
+		// En el modo individual vasta comprobar si existe
+		// al menos un equipo vacío.
+		if (ModoJuego.Individual == modo) {
+			return buscarVacio().isNone();
+		}
+
+		// Buscar si aun existe al menos un equipo con miembros
+		// faltantes.
+		for (Map.Entry<Integer, Equipo> entry : entrySet()) {
+			var equipo = entry.getValue();
+			if (equipo.haveSpace()) {
+				return false;
+			}
+		}
+
+		// Todos los equipos completos.
+		return true;
+	}
+
+	/**
+	 * Retorna los jugadores distribuidos de tal modo que los jugadores de un mismo
+	 * equipo no se encuentren uno a continuación de otro.
+	 * 
+	 * @param modo
+	 * @return
+	 */
+	public LinkedList<Jugador> getJugadoresDistribuidos(ModoJuego modo) {
+		LinkedList<Jugador> l1 = new LinkedList<Jugador>(); 
+		LinkedList<Jugador> l2 = new LinkedList<Jugador>();
+		
+		for (Map.Entry<Integer, Equipo> entry : entrySet()) {
+			Equipo equipo = entry.getValue();
+			var jugadores = equipo.getJugadores();
+			var keys = jugadores.keySet().toArray();
+		
+			l1.add(jugadores.get(keys[0]));
+			if(keys.length > 1) {
+				l2.add(jugadores.get(keys[1]));				
+			}
+		}
+		
+		l1.addAll(l2);	
+		return l1;
 	}
 }

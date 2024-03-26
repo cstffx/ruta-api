@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.xrgames.logic.ConfiguracionJuego;
 import org.xrgames.logic.Juego;
 import org.xrgames.logic.Jugador;
-import org.xrgames.logic.ModoJuego;
 import org.xrgames.ruta.dto.JuegoInfo;
 import org.xrgames.ruta.entity.Usuario;
 import org.xrgames.ruta.util.Juegos;
@@ -119,5 +118,26 @@ public class JuegoService {
 		}
 		
 		return Result.of(result.getError());
+	}
+
+	/**
+	 * Iniciar un juego.
+	 * @param juegoId
+	 * @param usuario
+	 * @return
+	 */
+	public Result<Boolean, Exception> iniciar(String juegoId, Usuario usuario) {
+		var juego = juegos.get(juegoId);
+		if(null == juego) {
+			return Result.of(new NotFoundException());
+		}
+		
+		if(juego.getOwner() != usuario) {
+			return Result.of(new AccessDeniedException());
+		}
+		
+		juego.iniciar();
+		
+		return Result.of(true);
 	}
 }

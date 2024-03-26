@@ -3,6 +3,7 @@ package org.xrgames.ruta.entity;
 import java.util.UUID;
 
 import org.xrgames.logic.Juego;
+import org.xrgames.logic.Jugador;
 import org.xrgames.ruta.util.Option;
 
 import jakarta.validation.constraints.NotNull;
@@ -71,5 +72,9 @@ public class Usuario {
 	 */
 	public void setJuego(Option<Juego> juego) {
 		this.juego = juego;
+	}
+	
+	public Jugador toJugador() {
+		return new Jugador(this);
 	}
 }	

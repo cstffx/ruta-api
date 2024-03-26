@@ -1,8 +1,10 @@
 package org.xrgames.logic;
 
 import org.xrgames.ruta.entity.Usuario;
+import org.xrgames.ruta.services.Debug;
 import org.xrgames.ruta.services.FullGameObjectException;
 import org.xrgames.ruta.services.NotFoundException;
+import org.xrgames.ruta.services.OperationNotAllowed;
 import org.xrgames.ruta.util.Equipos;
 import org.xrgames.ruta.util.Option;
 import org.xrgames.ruta.util.Result;
@@ -78,6 +80,39 @@ public final class Juego {
 	 */
 	public void nuevaPartida() {
 		partida.nuevaPartida();
+	}
+	
+	/**
+	 * Inicia un juego si es posible.
+	 * Un juego solo puede iniciar cuando:
+	 * - Los jugadores están completos 
+	 * - No ha sido ya iniciado.
+	 * - Lo inicia su propietario
+	 * @return
+	 */
+	public Result<Boolean,Exception> iniciar() {
+
+		if(iniciado) {
+			return Result.of((Exception)new OperationNotAllowed());
+		}
+		
+		if(!equipos.isFull(config.modo)) {
+			return Result.of((Exception)new OperationNotAllowed());
+		}
+		
+		// Crear la lista de jugadores. 
+		var jugadoresDistribuidos = equipos.getJugadoresDistribuidos(config.modo);
+		var jugadoresPartida = partida.getJugadores();
+		
+		/*
+		jugadoresPartida.clear();
+		jugadoresPartida.addAll(jugadoresDistribuidos);
+		*/
+		
+		// Juego marcado como iniciado.
+		iniciado = true;
+		
+		return Result.of(true); 	
 	}
 
 	/**
@@ -159,15 +194,6 @@ public final class Juego {
 	}
 
 	/**
-	 * Establece si el juego ya ha sido iniciado.
-	 * 
-	 * @param iniciado
-	 */
-	public void setIniciado(boolean iniciado) {
-		this.iniciado = iniciado;
-	}
-
-	/**
 	 * @return True si el juego ya ha sido iniciado.
 	 */
 	public boolean getIniciado() {
@@ -219,7 +245,10 @@ public final class Juego {
 
 		var usuario = jugador.getUsuario();
 		var usuarioId = usuario.getId();
-
+		
+		// Establecemos el equipo del jugador.
+		jugador.setEquipo(equipoId);
+		
 		equipo.getJugadores().put(usuarioId, jugador);
 
 		return Result.of(equipo.id);

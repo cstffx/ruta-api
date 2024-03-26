@@ -3,8 +3,6 @@ package org.xrgames.ruta.utils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.UUID;
-
 import org.junit.jupiter.api.Test;
 import org.xrgames.logic.Juego;
 import org.xrgames.ruta.entity.Usuario;

@@ -36,6 +36,13 @@ public class Equipo {
 	}
 	
 	/**
+	 * @return True si el equipo tiene espacio para uno o dos jugadores.
+	 */
+	public boolean haveSpace() {
+		return Juego.MAX_JUGADOR_POR_EQUIPO > jugadores.size();
+	}
+	
+	/**
 	 * @return True si el equipo no contiene jugadores.
 	 */
 	public boolean isEmpty() {

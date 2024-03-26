@@ -107,4 +107,25 @@ public class JuegoResource {
 		
 		return ResponseBuilder.of(result);
 	}
+	
+	/**
+	 * Permite al propietario de un juego iniciarlo.
+	 * 
+	 * @param id Id del juego.
+	 * @return
+	 * @throws Exception
+	 */
+	@POST
+	@Path("/start/{juego}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response start(@PathParam("juego") String juego) throws Exception {
+		if (session.isAnonimous()) {
+			return ResponseError.forbiden();
+		}
+		
+		var user = registry.currentUser().unwrap();
+		var result = juegoService.iniciar(juego, user);
+		
+		return ResponseBuilder.of(result);
+	}
 }

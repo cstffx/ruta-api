@@ -98,6 +98,14 @@ public class Jugador {
     }
     
     /**
+     * Establece el equipo del usuario
+     * @param equipoId
+     */
+    public void setEquipo(int equipoId) {
+    	this.equipo = equipoId;
+    }
+    
+    /**
      * @return True si la pila de cartas kilométricas tiene al menos una carta.
      */
     public boolean tieneCartaDistancia() {

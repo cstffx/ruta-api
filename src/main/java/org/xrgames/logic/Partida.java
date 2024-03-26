@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import org.xrgames.ruta.util.Equipos;
+
 /**
  * @author user
  */
@@ -11,6 +13,7 @@ public class Partida {
 
     private int actual = 0;
     private final Mazo mazo;
+    
     private final LinkedList<Jugador> jugadores = new LinkedList<>();
 
     /**
