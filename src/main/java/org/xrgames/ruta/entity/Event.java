@@ -1,24 +1,33 @@
 package org.xrgames.ruta.entity;
 
+import java.util.HashMap;
+
 /**
  * Clase padre de todos los eventos del juego.
  */
 public class Event {
 	
-	long timestap; 
+	long eventId = 0; 
 	
-	EventType tipo;
+	final EventType tipo;
 	
 	public Event(EventType tipo) {
 		this.tipo = tipo;
-		this.timestap = System.currentTimeMillis();
 	}
 	
 	public EventType getTipoEvento() {
 		return this.tipo;
 	}
 	
-	public long getTimestamp() {
-		return this.timestap;
+	public void setEventId(long id) {
+		this.eventId = id;
+	}
+	
+	public long getEventId() {
+		return this.eventId;
+	}
+	
+	public HashMap<String, Object> toUserMap(Usuario reader){
+		return new HashMap<String, Object>();
 	}
 }

@@ -1,24 +1,25 @@
 package org.xrgames.ruta.entity;
 
+import java.util.HashMap;
+
+import org.xrgames.logic.Equipo;
+
 /**
  * Ocurre cuando un equipo gana un juego.
  */
 public class TeamWinsGameEvent extends Event {
 	
-	public int id;
-	public String teamName;
+	final Equipo equipo;
 	
-	public TeamWinsGameEvent(int id, String teamName) {
+	public TeamWinsGameEvent(Equipo equipo) {
 		super(EventType.TEAM_WINS_GAME);
-		this.id = id;
-		this.teamName= teamName;
+		this.equipo = equipo;
 	}
 	
-	int getId() {
-		return id;
-	}
-	
-	public String getTeamName() {
-		return this.teamName;
+	public HashMap<String, Object> toUserMap(Usuario reader) {
+		var map = new HashMap<String, Object>();
+		map.put("equipoId", equipo.id);
+		map.put("equipoNombre", equipo.nombre);
+		return map;
 	}
 }

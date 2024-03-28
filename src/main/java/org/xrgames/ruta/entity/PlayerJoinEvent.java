@@ -1,18 +1,22 @@
 package org.xrgames.ruta.entity;
 
+import java.util.HashMap;
+
 /**
  * Ocurre cuando un jugador se une a un equipo.
  */
 public class PlayerJoinEvent extends Event {
-	
-	public String username;
-	
-	public PlayerJoinEvent(String username) {
+
+	final Usuario usuario;
+
+	public PlayerJoinEvent(Usuario usuario) {
 		super(EventType.PLAYER_JOIN);
-		this.username = username;
+		this.usuario = usuario;
 	}
-	
-	public String getUsername() {
-		return this.username;
+
+	public HashMap<String, Object> toUserMap(Usuario reader) {
+		var map = new HashMap<String, Object>();
+		map.put("username", usuario.getUsername());
+		return map;
 	}
 }
