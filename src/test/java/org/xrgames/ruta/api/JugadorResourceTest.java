@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.xrgames.ruta.services.Endpoint;
@@ -16,6 +17,11 @@ import org.xrgames.ruta.services.client.HttpClient;
 import jakarta.ws.rs.core.Response;
 
 public class JugadorResourceTest {
+	
+	@BeforeEach
+	void beforeEach() throws Exception {
+		TestUtil.resetServer();
+	}
 	
 	@Test
 	@DisplayName("getAll")

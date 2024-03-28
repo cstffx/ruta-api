@@ -12,7 +12,6 @@ import org.xrgames.logic.Juego;
 import org.xrgames.logic.ModoJuego;
 import org.xrgames.ruta.services.Endpoint;
 import org.xrgames.ruta.services.Endpoint.Route;
-import org.xrgames.ruta.services.client.HttpClient;
 
 import jakarta.ws.rs.core.Response;
 
@@ -20,9 +19,7 @@ public class EquipoResourceTest {
 
 	@BeforeEach
 	void beforeEach() throws Exception {
-		var http = HttpClient.make();
-		var response = http.post(Endpoint.of(Route.SERVER_RESET));
-		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		TestUtil.resetServer();
 	}
 
 	@Test

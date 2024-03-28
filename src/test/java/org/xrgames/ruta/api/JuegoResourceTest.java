@@ -22,9 +22,7 @@ public class JuegoResourceTest {
 
 	@BeforeEach
 	void beforeEach() throws Exception {
-		var http = HttpClient.make();
-		var response = http.post(Endpoint.of(Route.SERVER_RESET));
-		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		TestUtil.resetServer();
 	}
 
 	@Test

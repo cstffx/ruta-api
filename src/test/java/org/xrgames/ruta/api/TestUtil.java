@@ -17,7 +17,18 @@ import jakarta.ws.rs.core.Response;
 public class TestUtil {
 	
 	/**
+	 * Reinicia el estado del servidor.
+	 * @throws Exception
+	 */
+	public static void resetServer() throws Exception {
+		var http = HttpClient.make();
+		var response = http.post(Endpoint.of(Route.SERVER_RESET));
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+	}
+
+	/**
 	 * Crea un nuevo juego.
+	 * 
 	 * @return El id del juego creado.
 	 * @throws Exception
 	 */
@@ -25,9 +36,10 @@ public class TestUtil {
 		var http = HttpClient.forUser().unwrap();
 		return crearJuego(http);
 	}
-	
+
 	/**
 	 * Crea un juego con la configuración.
+	 * 
 	 * @param config
 	 * @return
 	 * @throws Exception
@@ -36,9 +48,10 @@ public class TestUtil {
 		var http = HttpClient.forUser().unwrap();
 		return crearJuego(http, config);
 	}
-	
+
 	/**
 	 * Crea un juego utilizando un HttpClient existente.
+	 * 
 	 * @param http
 	 * @return
 	 * @throws Exception
@@ -49,9 +62,10 @@ public class TestUtil {
 		config.modo = RandomModo.next();
 		return crearJuego(http, config);
 	}
-	
-	/** 
+
+	/**
 	 * Crea un juego utilizando un HttpClient existente y una configuración.
+	 * 
 	 * @param http
 	 * @return
 	 * @throws Exception
@@ -60,7 +74,7 @@ public class TestUtil {
 		var response = http.post(Endpoint.of(Route.JUEGO_CREATE), config);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 		var juegoId = response.readEntity(String.class);
-		
+
 		return new CreateJuegoResult(juegoId, http);
 	}
 }
