@@ -10,8 +10,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.Response;
 
-@Path("/equipo")
-public class EquipoResource {
+@Path("/evento")
+public class EventoResource {
 
 	@Inject
 	public UserSession session;
@@ -20,13 +20,12 @@ public class EquipoResource {
 	public JuegoService service;
 
 	/**
-	 * Retorna una lista de todos los equipos disponibles.
+	 * Retorna una lista de los eventos de un juego.
 	 * @return
 	 */
 	@GET
-	@Path("/{juegoId}")
-	public Response getAll(@PathParam("juegoId") String juegoId) {
-		var juego = service.getAllEquipos(juegoId);
-		return ResponseSuccess.json(juego);
+	@Path("/{juegoId}/{timestamp}")
+	public Response getAll(@PathParam("juegoId") String juegoId, @PathParam("timestamp") long timestap) {
+		return Response.ok().build();	
 	}
 }

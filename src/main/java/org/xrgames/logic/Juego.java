@@ -89,25 +89,24 @@ public final class Juego {
 	 * - No ha sido ya iniciado.
 	 * - Lo inicia su propietario
 	 * @return
+	 * @throws FullGameObjectException 
 	 */
 	public Result<Boolean,Exception> iniciar() {
-
+		
 		if(iniciado) {
-			return Result.of((Exception)new OperationNotAllowed());
+			return Result.of(new OperationNotAllowed());
 		}
 		
 		if(!equipos.isFull(config.modo)) {
-			return Result.of((Exception)new OperationNotAllowed());
+			return Result.of(new OperationNotAllowed());
 		}
 		
 		// Crear la lista de jugadores. 
 		var jugadoresDistribuidos = equipos.getJugadoresDistribuidos(config.modo);
 		var jugadoresPartida = partida.getJugadores();
 		
-		/*
 		jugadoresPartida.clear();
 		jugadoresPartida.addAll(jugadoresDistribuidos);
-		*/
 		
 		// Juego marcado como iniciado.
 		iniciado = true;

@@ -11,7 +11,6 @@ import org.xrgames.logic.Jugador;
 import org.xrgames.logic.ModoJuego;
 import org.xrgames.ruta.response.EquipoDetalle;
 import org.xrgames.ruta.services.AlreadyExistsException;
-import org.xrgames.ruta.services.Debug;
 import org.xrgames.ruta.services.MaxTeamCountReached;
 
 /**

@@ -1,13 +1,17 @@
 package org.xrgames.ruta.services;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 
 import org.xrgames.logic.ConfiguracionJuego;
+import org.xrgames.logic.Equipo;
 import org.xrgames.logic.Juego;
 import org.xrgames.logic.Jugador;
+import org.xrgames.ruta.dto.EquipoInfo;
 import org.xrgames.ruta.dto.JuegoInfo;
 import org.xrgames.ruta.entity.Usuario;
+import org.xrgames.ruta.util.Equipos;
 import org.xrgames.ruta.util.Juegos;
 import org.xrgames.ruta.util.Option;
 import org.xrgames.ruta.util.Result;
@@ -85,6 +89,27 @@ public class JuegoService {
 	}
 	
 	/**
+	 * @return
+	 */
+	public ArrayList<EquipoInfo> getAllEquipos(String juegoId) {
+		var result = new ArrayList<EquipoInfo>();
+		var juego = this.juegos.get(juegoId);
+		
+		for (Map.Entry<Integer, Equipo> entry : juego.equipos.entrySet()) {
+			Equipo equipo = entry.getValue();
+			
+			var id = equipo.id;
+			var nombre = equipo.nombre;
+			var cantidadJugadores = equipo.getJugadores().size();
+			var equipoInfo = new EquipoInfo(id, nombre, cantidadJugadores);
+			
+			result.add(equipoInfo);
+		}
+		
+		return result;
+	}
+	
+	/**
 	 * Elimina todos los juegos activos.
 	 */
 	public void clear() {
@@ -125,19 +150,18 @@ public class JuegoService {
 	 * @param juegoId
 	 * @param usuario
 	 * @return
+	 * @throws FullGameObjectException 
 	 */
 	public Result<Boolean, Exception> iniciar(String juegoId, Usuario usuario) {
 		var juego = juegos.get(juegoId);
 		if(null == juego) {
 			return Result.of(new NotFoundException());
 		}
-		
+
 		if(juego.getOwner() != usuario) {
 			return Result.of(new AccessDeniedException());
 		}
 		
-		juego.iniciar();
-		
-		return Result.of(true);
-	}
+		return juego.iniciar();
+	}		
 }

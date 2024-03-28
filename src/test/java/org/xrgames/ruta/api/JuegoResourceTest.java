@@ -227,6 +227,28 @@ public class JuegoResourceTest {
 		result = http.post(Endpoint.of(Route.JUEGO_JOIN, juego2Id, 0));
 		assertEquals(Response.Status.FOUND.getStatusCode(), result.getStatus(), "Usuario 3 no podrá unirse al juego 2");
 	}
+	
+	@Test
+	@DisplayName("No se puede iniciar un juego donde faltan jugadores.")
+	void startIncompleteGameTest() throws Exception {
+		var formData = new ConfiguracionJuego();
+		formData.jugadores = 2;
+		formData.modo = ModoJuego.Individual;
+
+		// Usuario 1 crea juego 1.
+		var http1 = HttpClient.forUser().unwrap();
+		var response = http1.post(Endpoint.of(Route.JUEGO_CREATE), formData);
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), "Usuario 1 debe crear juego individual.");
+		var juegoId = response.readEntity(String.class);
+		
+		// Usuario 1 se une a juego 1.
+		response = http1.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, "0"));
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), "Usuario 1 debe unirse a juego 1.");
+
+		// Usuario 1 inicia el juego.
+		response = http1.post(Endpoint.of(Route.JUEGO_START, juegoId));
+		assertEquals(Response.Status.METHOD_NOT_ALLOWED.getStatusCode(), response.getStatus(), "No se puede iniciar un juego donde faltan jugadores.");	
+	}
 
 	@Test
 	@DisplayName("El usuario puede iniciar un juego que ha creado y está completo.")
@@ -251,7 +273,6 @@ public class JuegoResourceTest {
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), "Usuario 2 debe unirse a juego 1");
 	}
 	
-	/*
 	@Test
 	@DisplayName("El usuario no puede iniciar un juego iniciado.")
 	void startGameTest() throws Exception {
@@ -264,7 +285,7 @@ public class JuegoResourceTest {
 		var response = http1.post(Endpoint.of(Route.JUEGO_CREATE), formData);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), "Usuario 1 debe crear juego individual.");
 		var juegoId = response.readEntity(String.class);
-
+		
 		// Usuario 1 se une a juego 1.
 		response = http1.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, "0"));
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), "Usuario 1 debe unirse a juego 1.");
@@ -277,6 +298,9 @@ public class JuegoResourceTest {
 		// Usuario 1 inicia el juego.
 		response = http1.post(Endpoint.of(Route.JUEGO_START, juegoId));
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), "Usuario 1 inicia el juego.");
+	
+		// Usuario 1 intenta volverlo a iniciar el juego.
+		response = http1.post(Endpoint.of(Route.JUEGO_START, juegoId));
+		assertEquals(Response.Status.METHOD_NOT_ALLOWED.getStatusCode(), response.getStatus(), "Usuario 1 inicia el juego.");
 	}
-	*/
 }

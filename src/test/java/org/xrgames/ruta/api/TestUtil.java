@@ -27,20 +27,38 @@ public class TestUtil {
 	}
 	
 	/**
+	 * Crea un juego con la configuración.
+	 * @param config
+	 * @return
+	 * @throws Exception
+	 */
+	public static CreateJuegoResult crearJuego(ConfiguracionJuego config) throws Exception {
+		var http = HttpClient.forUser().unwrap();
+		return crearJuego(http, config);
+	}
+	
+	/**
 	 * Crea un juego utilizando un HttpClient existente.
 	 * @param http
 	 * @return
 	 * @throws Exception
 	 */
 	public static CreateJuegoResult crearJuego(HttpClient http) throws Exception {
-
-		var formData = new ConfiguracionJuego();
-		formData.jugadores = RandomPlayers.next();
-		formData.modo = RandomModo.next();
-		
-		var response = http.post(Endpoint.of(Route.JUEGO_CREATE), formData);
+		var config = new ConfiguracionJuego();
+		config.jugadores = RandomPlayers.next();
+		config.modo = RandomModo.next();
+		return crearJuego(http, config);
+	}
+	
+	/** 
+	 * Crea un juego utilizando un HttpClient existente y una configuración.
+	 * @param http
+	 * @return
+	 * @throws Exception
+	 */
+	public static CreateJuegoResult crearJuego(HttpClient http, ConfiguracionJuego config) throws Exception {
+		var response = http.post(Endpoint.of(Route.JUEGO_CREATE), config);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		
 		var juegoId = response.readEntity(String.class);
 		
 		return new CreateJuegoResult(juegoId, http);
