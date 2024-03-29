@@ -223,7 +223,7 @@ public class Partida {
 	 * @return
 	 * @throws Exception
 	 */
-	public int jugada(ConfiguracionJugada jugada) throws Exception {
+	public int jugada(Jugada jugada) throws Exception {
 		Cartas pila = null;
 		var puntosJugada = 0;
 		var index = jugada.indiceCarta;

@@ -27,7 +27,7 @@ public class JuegoResource {
 
 	@Inject
 	UserRegistry registry;
-
+	
 	/**
 	 * Retorna una lista de los juegos disponibles.
 	 * 
@@ -129,5 +129,24 @@ public class JuegoResource {
 		var result = juegoService.iniciar(juego, user);
 
 		return ResponseBuilder.of(result);
+	}
+	
+
+
+	/**
+	 * Realiza una jugada en la partida actual.
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@POST
+	@Path("play")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response play() throws Exception {
+		if (session.isAnonimous()) {
+			return ResponseError.forbiden();
+		}
+
+		return Response.ok(true).build();
 	}
 }

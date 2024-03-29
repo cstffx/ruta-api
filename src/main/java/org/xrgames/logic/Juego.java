@@ -139,7 +139,7 @@ public final class Juego {
 	 * @param jugada
 	 * @throws Exception
 	 */
-	public void jugada(ConfiguracionJugada jugada) throws Exception {
+	public void jugada(Jugada jugada) throws Exception {
 		partida.jugada(jugada);
 	}
 
