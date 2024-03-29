@@ -2,7 +2,6 @@ package org.xrgames.logic;
 
 import org.xrgames.ruta.entity.GameStartEvent;
 import org.xrgames.ruta.entity.Usuario;
-import org.xrgames.ruta.services.Debug;
 import org.xrgames.ruta.services.FullGameObjectException;
 import org.xrgames.ruta.services.NotFoundException;
 import org.xrgames.ruta.services.OperationNotAllowed;
@@ -49,7 +48,7 @@ public final class Juego {
 	final Usuario owner;
 	ConfiguracionJuego config;
 	final Events eventos = new Events();
-	
+
 	boolean iniciado;
 
 	/**
@@ -84,41 +83,40 @@ public final class Juego {
 	public void nuevaPartida() {
 		partida.nuevaPartida();
 	}
-	
+
 	/**
-	 * Inicia un juego si es posible.
-	 * Un juego solo puede iniciar cuando:
-	 * - Los jugadores están completos 
-	 * - No ha sido ya iniciado.
-	 * - Lo inicia su propietario
+	 * Inicia un juego si es posible. Un juego solo puede iniciar cuando: - Los
+	 * jugadores están completos - No ha sido ya iniciado. - Lo inicia su
+	 * propietario
+	 * 
 	 * @return
-	 * @throws FullGameObjectException 
+	 * @throws FullGameObjectException
 	 */
-	public Result<Boolean,Exception> iniciar() {
-		
-		if(iniciado) {
+	public Result<Boolean, Exception> iniciar() {
+
+		if (iniciado) {
 			return Result.of(new OperationNotAllowed());
 		}
-		
-		if(!equipos.isFull(config.modo)) {
+
+		if (!equipos.isFull(config.modo)) {
 			return Result.of(new OperationNotAllowed());
 		}
-		
-		// Crear la lista de jugadores. 
+
+		// Crear la lista de jugadores.
 		var jugadoresDistribuidos = equipos.getJugadoresDistribuidos(config.modo);
 		var jugadoresPartida = partida.getJugadores();
-		
+
 		jugadoresPartida.clear();
 		jugadoresPartida.addAll(jugadoresDistribuidos);
-		
+
 		// Juego marcado como iniciado.
 		iniciado = true;
-		
-		// Lanzar evento de inicio. 
+
+		// Lanzar evento de inicio.
 		this.eventos.add(new GameStartEvent());
-		
+
 		// Juego iniciado con éxito.
-		return Result.of(true); 	
+		return Result.of(true);
 	}
 
 	/**
@@ -229,19 +227,19 @@ public final class Juego {
 				// Juego lleno.
 				return Result.of(new FullGameObjectException());
 			}
-			
+
 			equipo = siguienteVacio.unwrap();
-		
+
 		} else {
-			
+
 			// Unir jugador a una partida por equipos.
 			var equipos = getEquipos();
 			var equipoOption = equipos.get(equipoId);
-			
+
 			if (equipoOption.isNone()) {
 				return Result.of(new NotFoundException("No se encuentra el equipo."));
 			}
-			
+
 			equipo = equipoOption.unwrap();
 
 			if (equipo.isFull()) {
@@ -251,15 +249,15 @@ public final class Juego {
 
 		var usuario = jugador.getUsuario();
 		var usuarioId = usuario.getId();
-		
+
 		// Establecemos el equipo del jugador.
 		jugador.setEquipo(equipoId);
-		
+
 		equipo.getJugadores().put(usuarioId, jugador);
 
 		return Result.of(equipo.id);
 	}
-	
+
 	/**
 	 * @return El listado de eventos del juego.
 	 */

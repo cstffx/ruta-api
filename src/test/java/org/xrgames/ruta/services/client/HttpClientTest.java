@@ -3,7 +3,6 @@ package org.xrgames.ruta.services.client;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-
 import org.xrgames.ruta.services.Endpoint;
 import org.xrgames.ruta.services.Endpoint.Route;
 
@@ -14,7 +13,7 @@ public class HttpClientTest {
 		var response = HttpClient.make().get(endpoint);
 		assertTrue(response.readEntity(String.class).equals("online"));
 	}
-	
+
 	@Test
 	void postTest() throws Exception {
 		var endpoint = Endpoint.of(Route.STATUS);

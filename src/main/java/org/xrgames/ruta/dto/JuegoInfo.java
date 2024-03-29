@@ -6,13 +6,13 @@ import org.xrgames.logic.ModoJuego;
  * Representa información pública de un juego.
  */
 public class JuegoInfo {
-	
+
 	public String owner;
-	public boolean iniciado; 
-	public int jugadores; 
+	public boolean iniciado;
+	public int jugadores;
 	public ModoJuego modo;
 	public int jugadoresMaximos;
-		
+
 	public JuegoInfo() {
 	}
 }

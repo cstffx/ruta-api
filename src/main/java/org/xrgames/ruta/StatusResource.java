@@ -13,25 +13,25 @@ import jakarta.ws.rs.core.Response;
 
 @Path("/status")
 public class StatusResource {
-	@Inject 
+	@Inject
 	UserSession session;
-	
+
 	@GET
 	@Path("/protected")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProtectedStatus() {
-		if(session.isAnonimous()){
+		if (session.isAnonimous()) {
 			return ResponseError.forbiden();
 		}
 		return Response.ok("online").build();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getStatusGet() {
 		return Response.ok("online").build();
 	}
-	
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getStatusPost() {

@@ -14,16 +14,16 @@ import jakarta.inject.Inject;
  */
 @RequestScoped
 public class UserSession {
-	
-	@Inject 
+
+	@Inject
 	private UserRegistry userRegistry;
-	
-	@Inject 
+
+	@Inject
 	private TokenReader reader;
-		
-	@Inject 
-	private  TokenWriter writer;
-	
+
+	@Inject
+	private TokenWriter writer;
+
 	/**
 	 * Retorna true si el usuario no ha iniciado session.
 	 * 
@@ -35,28 +35,29 @@ public class UserSession {
 
 	/**
 	 * Agrega un usuario al registro
+	 * 
 	 * @param username
 	 * @return
-	 * @throws AlreadyExistsException 
+	 * @throws AlreadyExistsException
 	 */
 	public Result<SessionToken, AlreadyExistsException> login(String username) throws AlreadyExistsException {
 		var token = getToken();
-		if(!token.isEmpty()) {
-			return Result.of(token);	
+		if (!token.isEmpty()) {
+			return Result.of(token);
 		}
 
 		// No se puede autenticar un usuario existente.
 		var addResult = userRegistry.add(username);
-		if(addResult.isErr()) {
+		if (addResult.isErr()) {
 			return Result.of(addResult.getError());
 		}
-       
+
 		var usuario = addResult.unwrap();
-		
+
 		// Construir el token.
 		token = new SessionToken(usuario.id, usuario.username);
 
-		// Escribirlo en la sesion 
+		// Escribirlo en la sesion
 		writer.write(token);
 
 		return Result.of(token);
@@ -67,7 +68,7 @@ public class UserSession {
 	 */
 	public void logout() {
 		var token = getToken();
-		if(token.isEmpty()) {
+		if (token.isEmpty()) {
 			return;
 		}
 		var id = token.id;
@@ -86,22 +87,24 @@ public class UserSession {
 
 	/**
 	 * Devuelve el id actual de usuario.
+	 * 
 	 * @return
 	 */
 	public Option<String> getId() {
 		var token = reader.read();
-		if(token.isEmpty()) {
+		if (token.isEmpty()) {
 			return Option.none();
 		}
 		return Option.of(token.id);
 	}
-	
+
 	/**
 	 * Retorna el usuario de la sesión actual.
+	 * 
 	 * @return
 	 */
 	public Option<Usuario> getUser() {
-		var token = this.getToken(); 
+		var token = this.getToken();
 		return userRegistry.fromToken(token);
 	}
 }

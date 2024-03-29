@@ -18,18 +18,19 @@ import jakarta.ws.rs.core.Response;
 
 @Path("/juego")
 public class JuegoResource {
-	
-	@Inject 
+
+	@Inject
 	UserSession session;
 
-	@Inject 
+	@Inject
 	JuegoService juegoService;
-	
+
 	@Inject
 	UserRegistry registry;
-	
+
 	/**
 	 * Retorna una lista de los juegos disponibles.
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -41,10 +42,11 @@ public class JuegoResource {
 		}
 		var items = juegoService.getAll();
 		return Response.ok(items).build();
-	}	
-	
+	}
+
 	/**
 	 * Crea un nuevo juego.
+	 * 
 	 * @param login
 	 * @return
 	 * @throws Exception
@@ -55,17 +57,17 @@ public class JuegoResource {
 		if (session.isAnonimous()) {
 			return ResponseError.forbiden();
 		}
-		
+
 		var owner = registry.currentUser().unwrap();
 		var gameId = juegoService.create(owner, form);
-		
-		if(gameId.isNone()) {
+
+		if (gameId.isNone()) {
 			return ResponseError.found();
 		}
-	
+
 		return Response.ok(gameId.unwrap()).build();
 	}
-	
+
 	/**
 	 * Termina un juego en curso por su propietario.
 	 * 
@@ -80,13 +82,13 @@ public class JuegoResource {
 		if (session.isAnonimous()) {
 			return ResponseError.forbiden();
 		}
-		
+
 		var performer = registry.currentUser().unwrap();
 		var result = juegoService.end(id, performer);
-		
+
 		return ResponseBuilder.of(result);
 	}
-	
+
 	/**
 	 * Permite al usuario actual unirse a un juego.
 	 * 
@@ -101,13 +103,13 @@ public class JuegoResource {
 		if (session.isAnonimous()) {
 			return ResponseError.forbiden();
 		}
-		
+
 		var user = registry.currentUser().unwrap();
 		var result = juegoService.join(juego, equipo, user);
-		
+
 		return ResponseBuilder.of(result);
 	}
-	
+
 	/**
 	 * Permite al propietario de un juego iniciarlo.
 	 * 
@@ -122,10 +124,10 @@ public class JuegoResource {
 		if (session.isAnonimous()) {
 			return ResponseError.forbiden();
 		}
-		
+
 		var user = registry.currentUser().unwrap();
 		var result = juegoService.iniciar(juego, user);
-		
+
 		return ResponseBuilder.of(result);
 	}
 }

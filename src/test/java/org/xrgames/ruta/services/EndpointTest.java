@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.xrgames.ruta.services.Endpoint.Route;
 
 public class EndpointTest {
-	
+
 	@Test
 	@DisplayName("Endpoint simple")
 	public void testEndpoint() throws Exception {
 		Endpoint.of(Route.JUGADOR_LOGIN).toString();
 	}
-	
+
 	@Test
 	@DisplayName("Endpoint con un parámetros")
 	public void testSingleParamEndpoint() throws Exception {

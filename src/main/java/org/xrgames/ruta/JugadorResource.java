@@ -25,8 +25,9 @@ public class JugadorResource {
 	@Inject
 	public JuegoService juegoService;
 
-	@Inject UserRegistry registry;
-	
+	@Inject
+	UserRegistry registry;
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAll() {

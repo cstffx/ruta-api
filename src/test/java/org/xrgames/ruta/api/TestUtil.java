@@ -15,9 +15,10 @@ import jakarta.ws.rs.core.Response;
  * Funciones de uso frecuente en los test.
  */
 public class TestUtil {
-	
+
 	/**
 	 * Reinicia el estado del servidor.
+	 * 
 	 * @throws Exception
 	 */
 	public static void resetServer() throws Exception {

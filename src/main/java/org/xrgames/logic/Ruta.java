@@ -5,7 +5,7 @@ package org.xrgames.logic;
  */
 public class Ruta {
 
-    public static void main(String[] args) throws Exception {
-         System.out.println("No GUI yet");
-    }
+	public static void main(String[] args) throws Exception {
+		System.out.println("No GUI yet");
+	}
 }

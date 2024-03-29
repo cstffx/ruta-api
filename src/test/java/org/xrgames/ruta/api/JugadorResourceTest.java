@@ -17,12 +17,12 @@ import org.xrgames.ruta.services.client.HttpClient;
 import jakarta.ws.rs.core.Response;
 
 public class JugadorResourceTest {
-	
+
 	@BeforeEach
 	void beforeEach() throws Exception {
 		TestUtil.resetServer();
 	}
-	
+
 	@Test
 	@DisplayName("getAll")
 	void getAll() throws Exception {
@@ -35,9 +35,9 @@ public class JugadorResourceTest {
 	@DisplayName("login")
 	public void loginTest() throws Exception {
 		Response response;
-		var username = "test";		
+		var username = "test";
 		var http = HttpClient.forUser(username).unwrap();
-		
+
 		// 400 cuando el usuario está vacío.
 		response = http.post(Endpoint.of(Route.JUGADOR_LOGIN), new LoginForm(""));
 		assertEquals(400, response.getStatus());
@@ -59,10 +59,10 @@ public class JugadorResourceTest {
 		var users = response.readEntity(ArrayList.class);
 		var exists = false;
 		var iterator = users.listIterator();
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			@SuppressWarnings("unchecked")
 			LinkedHashMap<String, Object> user = (LinkedHashMap<String, Object>) iterator.next();
-			if(user.get("username").equals(username)) {
+			if (user.get("username").equals(username)) {
 				exists = true;
 				break;
 			}
@@ -74,7 +74,7 @@ public class JugadorResourceTest {
 		assertEquals(200, response.getStatus());
 
 		// No podremos acceder a un endpoint protegido.
-		response = http.get(Endpoint.of(Route.STATUS_PROTECTED));	
+		response = http.get(Endpoint.of(Route.STATUS_PROTECTED));
 		assertEquals(403, response.getStatus());
 	}
 }

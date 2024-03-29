@@ -14,21 +14,10 @@ public class Endpoint {
 
 	public enum Route {
 
-		JUGADOR("jugador"), 
-		JUGADOR_LOGIN("jugador/login"), 
-		JUGADOR_LOGOUT("jugador/logout"),
-		JUEGO("juego"), 
-		JUEGO_JOIN("juego/join/{0}/{1}"),
-		JUEGO_CREATE("juego"), 
-		JUEGO_END("juego/end/{0}"), 
-		JUEGO_START("juego/start/{0}"),
-		EQUIPO("equipo/{0}"),
-		EQUIPO_JOIN("equipo/join/{0}"),
-		EQUIPO_CREATE("equipo"), 
-		STATUS("status"),
-		STATUS_PROTECTED("status/protected"), 
-		SERVER_RESET("server/reset"), 
-		EVENTO("evento/{0}/{1}");
+		JUGADOR("jugador"), JUGADOR_LOGIN("jugador/login"), JUGADOR_LOGOUT("jugador/logout"), JUEGO("juego"),
+		JUEGO_JOIN("juego/join/{0}/{1}"), JUEGO_CREATE("juego"), JUEGO_END("juego/end/{0}"),
+		JUEGO_START("juego/start/{0}"), EQUIPO("equipo/{0}"), EQUIPO_JOIN("equipo/join/{0}"), EQUIPO_CREATE("equipo"),
+		STATUS("status"), STATUS_PROTECTED("status/protected"), SERVER_RESET("server/reset"), EVENTO("evento/{0}/{1}");
 
 		public final String path;
 
@@ -63,8 +52,8 @@ public class Endpoint {
 	 */
 	public Endpoint(Route name, Object... arguments) throws Exception {
 		var argsCount = name.countArgs();
-		
-		if(arguments.length != argsCount) {
+
+		if (arguments.length != argsCount) {
 			var url = name.toString();
 			var requeridos = String.valueOf(argsCount);
 			var recibidos = String.valueOf(arguments.length);
@@ -72,7 +61,7 @@ public class Endpoint {
 			message = MessageFormat.format(message, url, requeridos, recibidos);
 			throw new Exception(message);
 		}
-		
+
 		url = MessageFormat.format(name.toString(), arguments);
 		url = MessageFormat.format(PATTERN, PROTOCOL, HOST, String.valueOf(PORT), CONTEXT, url);
 	}
@@ -85,7 +74,7 @@ public class Endpoint {
 	public static String of(Route name, Object... arguments) throws Exception {
 		return (new Endpoint(name, arguments)).toString();
 	}
-	
+
 	public String toString() {
 		return url;
 	}

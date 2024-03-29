@@ -182,21 +182,21 @@ public class Equipos extends HashMap<Integer, Equipo> {
 	 * @return
 	 */
 	public LinkedList<Jugador> getJugadoresDistribuidos(ModoJuego modo) {
-		LinkedList<Jugador> l1 = new LinkedList<Jugador>(); 
+		LinkedList<Jugador> l1 = new LinkedList<Jugador>();
 		LinkedList<Jugador> l2 = new LinkedList<Jugador>();
-		
+
 		for (Map.Entry<Integer, Equipo> entry : entrySet()) {
 			Equipo equipo = entry.getValue();
 			var jugadores = equipo.getJugadores();
 			var keys = jugadores.keySet().toArray();
-		
+
 			l1.add(jugadores.get(keys[0]));
-			if(keys.length > 1) {
-				l2.add(jugadores.get(keys[1]));				
+			if (keys.length > 1) {
+				l2.add(jugadores.get(keys[1]));
 			}
 		}
-		
-		l1.addAll(l2);	
+
+		l1.addAll(l2);
 		return l1;
 	}
 }

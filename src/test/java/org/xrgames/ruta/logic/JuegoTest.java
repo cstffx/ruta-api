@@ -16,21 +16,21 @@ public class JuegoTest {
 	@DisplayName("Debe crearse un juego con equipos según configuracion")
 	void crearTest() {
 		var owner = new Usuario(UsernameFactory.next());
-	
-		// Las variantes individuales deben tener misma cantidad 
+
+		// Las variantes individuales deben tener misma cantidad
 		// de equipos por jugador.
-		for( int cantidad: RandomPlayers.jugadores) {
+		for (int cantidad : RandomPlayers.jugadores) {
 			var config = new ConfiguracionJuego(ModoJuego.Individual, cantidad);
 			var juego = new Juego(owner, config);
 			assertEquals(juego.getEquipos().size(), cantidad);
 		}
-		
-		// Variantes por equipo de 4 jugadores. 
+
+		// Variantes por equipo de 4 jugadores.
 		var config = new ConfiguracionJuego(ModoJuego.Equipo, 4);
 		var juego = new Juego(owner, config);
 		assertEquals(juego.getEquipos().size(), 2);
-		
-		// Variantes por equipo de 6 jugadores. 
+
+		// Variantes por equipo de 6 jugadores.
 		config = new ConfiguracionJuego(ModoJuego.Equipo, 6);
 		juego = new Juego(owner, config);
 		assertEquals(juego.getEquipos().size(), 3);

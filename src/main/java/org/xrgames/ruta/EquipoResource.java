@@ -21,6 +21,7 @@ public class EquipoResource {
 
 	/**
 	 * Retorna una lista de todos los equipos disponibles.
+	 * 
 	 * @return
 	 */
 	@GET

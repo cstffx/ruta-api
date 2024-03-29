@@ -21,14 +21,15 @@ public class Juegos extends HashMap<String, Juego> {
 	 * 
 	 * @param owner
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public boolean hasOne(Usuario owner) throws Exception {
 		return get(owner).isSome();
 	}
-	
+
 	/**
 	 * Coloca un juego en el HashMap con un id aleatorio.
+	 * 
 	 * @param juego
 	 * @return
 	 */
@@ -43,7 +44,7 @@ public class Juegos extends HashMap<String, Juego> {
 	 * 
 	 * @param owner
 	 * @return El juego se es encontrado.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public Option<Juego> get(Usuario owner) throws Exception {
 		for (Map.Entry<String, Juego> entry : entrySet()) {
@@ -58,24 +59,25 @@ public class Juegos extends HashMap<String, Juego> {
 
 	/**
 	 * Retorna información de todos los juegos registrados.
+	 * 
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public ArrayList<JuegoInfo> getAllInfo() throws Exception {
 		ArrayList<JuegoInfo> items = new ArrayList<>(size());
-		for(Map.Entry<String, Juego> entry: entrySet()) {
+		for (Map.Entry<String, Juego> entry : entrySet()) {
 			var juego = entry.getValue();
 			var info = new JuegoInfo();
-			var partida = juego.getPartida(); 
-			var configuracion = juego.getConfig(); 
+			var partida = juego.getPartida();
+			var configuracion = juego.getConfig();
 			var owner = juego.getOwner();
-			
+
 			info.owner = owner.getUsername();
 			info.jugadores = partida.getJugadores().size();
 			info.modo = configuracion.getModo();
-			info.jugadoresMaximos = configuracion.getJugadores(); 
+			info.jugadoresMaximos = configuracion.getJugadores();
 			info.iniciado = juego.getIniciado();
-			
+
 			items.add(info);
 		}
 		return items;

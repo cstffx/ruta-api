@@ -8,7 +8,7 @@ import org.xrgames.logic.Carta;
  * Ocurre cuando un jugador juega una carta.
  */
 public class PlayerPlaysCardEvent extends Event {
-	
+
 	final Usuario usuario;
 	final Carta carta;
 

@@ -7,12 +7,13 @@ import jakarta.ws.rs.core.Context;
 
 @RequestScoped
 public class TokenWriter extends TokenHandler {
-	
+
 	@Context
 	private HttpServletRequest request;
-	
+
 	/**
 	 * Escribe un token en la sesion actual.
+	 * 
 	 * @param token
 	 */
 	void write(SessionToken token) {
@@ -20,7 +21,7 @@ public class TokenWriter extends TokenHandler {
 		session.setAttribute(ID_ATTRIBUTE, token.id);
 		session.setAttribute(NAME_ATTRIBUTE, token.username);
 	}
-	
+
 	/**
 	 * Borra un token de la sesion actual.
 	 */

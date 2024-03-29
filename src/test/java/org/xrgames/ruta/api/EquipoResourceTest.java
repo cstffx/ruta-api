@@ -32,12 +32,12 @@ public class EquipoResourceTest {
 
 		// Usuario 1 crea juego 1.
 		var creator = TestUtil.crearJuego(config);
-		var http = creator.http; 
-		var juegoId = creator.juegoId; 
-		
+		var http = creator.http;
+		var juegoId = creator.juegoId;
+
 		var response = http.get(Endpoint.of(Route.EQUIPO, juegoId));
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		
+
 		var equipos = response.readEntity(ArrayList.class);
 		assertEquals(3, equipos.size());
 	}

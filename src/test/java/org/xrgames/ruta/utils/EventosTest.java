@@ -1,7 +1,6 @@
 package org.xrgames.ruta.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 
@@ -63,7 +62,7 @@ public class EventosTest {
 
 		response = creator.http.get(Endpoint.of(Route.EVENTO, creator.juegoId, currentId));
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		
+
 		var items = response.readEntity(ArrayList.class);
 		Debug.debug(items);
 		assertEquals(1, items.size());

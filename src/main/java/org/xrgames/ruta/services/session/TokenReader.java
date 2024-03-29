@@ -10,9 +10,10 @@ public class TokenReader extends TokenHandler {
 
 	@Context
 	private HttpServletRequest request;
-	
+
 	/**
 	 * Recupera un token de la sesion actual
+	 * 
 	 * @return
 	 */
 	SessionToken read() {

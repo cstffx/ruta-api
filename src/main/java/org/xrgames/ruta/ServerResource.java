@@ -17,12 +17,13 @@ public class ServerResource {
 
 	@Inject
 	public JuegoService juegoService;
-	
+
 	@Inject
 	public UserRegistry userRegistry;
 
 	/**
 	 * Restablece el estado del servidor.
+	 * 
 	 * @return
 	 */
 	@POST

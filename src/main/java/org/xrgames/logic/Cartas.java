@@ -8,75 +8,74 @@ import java.util.LinkedList;
  * @author user
  */
 public class Cartas {
-	
+
 	public final static int ULTIMA_CARTA = -1;
-    private final LinkedList<Carta> cartas = new LinkedList<>();
+	private final LinkedList<Carta> cartas = new LinkedList<>();
 
-    public static LinkedList<Carta> transferMany(Cartas a, Cartas b, int size){
-         LinkedList<Carta> cartas = new LinkedList<>();
-         for(int i =0; i < size; i++){
-             var carta = transfer(a, b);
-             if(null != carta){
-                cartas.add(carta);                 
-             }
-         }
-         return cartas;
-    }
-    
-    public static Carta transfer(Cartas a, Cartas b, int index) {
-        Carta carta = a.extract(index);
-        if( carta != null){
-            b.add(carta);
-        }
-        return carta;
-    }
+	public static LinkedList<Carta> transferMany(Cartas a, Cartas b, int size) {
+		LinkedList<Carta> cartas = new LinkedList<>();
+		for (int i = 0; i < size; i++) {
+			var carta = transfer(a, b);
+			if (null != carta) {
+				cartas.add(carta);
+			}
+		}
+		return cartas;
+	}
 
-    public static Carta transfer(Cartas a, Cartas b) {
-        return Cartas.transfer(a, b, Cartas.ULTIMA_CARTA);
-    }
+	public static Carta transfer(Cartas a, Cartas b, int index) {
+		Carta carta = a.extract(index);
+		if (carta != null) {
+			b.add(carta);
+		}
+		return carta;
+	}
 
-    public int size() {
-        return cartas.size();
-    }
+	public static Carta transfer(Cartas a, Cartas b) {
+		return Cartas.transfer(a, b, Cartas.ULTIMA_CARTA);
+	}
 
-    public boolean isEmpty() {
-        return cartas.isEmpty();
-    }
+	public int size() {
+		return cartas.size();
+	}
 
-    public Carta extract(int index) {
-        if (index == Cartas.ULTIMA_CARTA) {
-            return cartas.removeLast();
-        }
-        return cartas.remove(index);
-    }
+	public boolean isEmpty() {
+		return cartas.isEmpty();
+	}
 
-    public void add(Carta carta) {
-        cartas.add(carta);
-    }
+	public Carta extract(int index) {
+		if (index == Cartas.ULTIMA_CARTA) {
+			return cartas.removeLast();
+		}
+		return cartas.remove(index);
+	}
 
-    public void addMany(Carta carta, int cantidad) {
-        var tipo = carta.getTipo();
-        var subtipo = carta.getSubtipo();
-        for(int i = 0; i < cantidad; i++){
-            Carta newCarta = new Carta(tipo, subtipo);
-            this.add(newCarta);
-        }
-    }
+	public void add(Carta carta) {
+		cartas.add(carta);
+	}
 
-    public void clear() {
-        cartas.clear();
-    }
+	public void addMany(Carta carta, int cantidad) {
+		var tipo = carta.getTipo();
+		var subtipo = carta.getSubtipo();
+		for (int i = 0; i < cantidad; i++) {
+			Carta newCarta = new Carta(tipo, subtipo);
+			this.add(newCarta);
+		}
+	}
 
-    public void shuffle() {
-        Collections.shuffle(cartas);
-    }
-    
-        
-    public Carta get(int index){
-        return cartas.get(index);
-    } 
-    
-    public LinkedList<Carta> getAll() {
-        return cartas;
-    }
+	public void clear() {
+		cartas.clear();
+	}
+
+	public void shuffle() {
+		Collections.shuffle(cartas);
+	}
+
+	public Carta get(int index) {
+		return cartas.get(index);
+	}
+
+	public LinkedList<Carta> getAll() {
+		return cartas;
+	}
 }

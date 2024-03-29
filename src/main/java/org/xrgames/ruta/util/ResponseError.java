@@ -15,14 +15,15 @@ public class ResponseError {
 
 	/**
 	 * Genera una respuesta a partir de una excepcion.
+	 * 
 	 * @param exception
 	 * @return
 	 */
 	public static Response status(Exception exception) {
-		if(exception instanceof AlreadyJoined) {
+		if (exception instanceof AlreadyJoined) {
 			return found();
 		}
-		
+
 		if (exception instanceof NotFoundException) {
 			return notFound();
 		}
@@ -30,28 +31,30 @@ public class ResponseError {
 		if (exception instanceof AccessDeniedException) {
 			return unauthorized();
 		}
-		
+
 		if (exception instanceof FullGameObjectException) {
-			return Response.status(Response.Status.REQUESTED_RANGE_NOT_SATISFIABLE.getStatusCode(), exception.getMessage()).build();
+			return Response
+					.status(Response.Status.REQUESTED_RANGE_NOT_SATISFIABLE.getStatusCode(), exception.getMessage())
+					.build();
 		}
-				
+
 		if (exception instanceof OperationNotAllowed) {
 			return Response.status(Response.Status.METHOD_NOT_ALLOWED.getStatusCode(), exception.getMessage()).build();
 		}
-		
+
 		return error();
 	}
 
 	/**
-	 * Acorta la creación de una respuesta a partir de un Response.Status.
-	 * Provisto con conveniencia.
+	 * Acorta la creación de una respuesta a partir de un Response.Status. Provisto
+	 * con conveniencia.
+	 * 
 	 * @param status
 	 * @return
 	 */
 	public static Response status(Response.Status status) {
 		return Response.status(status).build();
 	}
-
 
 	public static Response forbiden() {
 		return status(Response.Status.FORBIDDEN);
@@ -68,11 +71,11 @@ public class ResponseError {
 	public static Response found() {
 		return status(Response.Status.FOUND);
 	}
-	
+
 	public static Response unauthorized() {
 		return status(Response.Status.UNAUTHORIZED);
 	}
-	
+
 	public static Response error() {
 		return status(Response.Status.INTERNAL_SERVER_ERROR);
 	}

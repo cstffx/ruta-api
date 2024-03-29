@@ -24,20 +24,21 @@ public class EventoResource {
 
 	/**
 	 * Retorna una lista de los eventos de un juego.
+	 * 
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@GET
 	@Path("/{juegoId}/{eventoId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAll(@PathParam("juegoId") String juegoId, @PathParam("eventoId") int eventoId) throws Exception {
-		if(session.isAnonimous()){
+		if (session.isAnonimous()) {
 			return ResponseError.forbiden();
 		}
-		
+
 		var user = session.getUser().unwrap();
 		var result = juegoService.getEventosForGame(juegoId, eventoId, user);
-	
+
 		return ResponseBuilder.of(result);
 	}
 }

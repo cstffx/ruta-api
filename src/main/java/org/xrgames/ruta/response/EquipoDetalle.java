@@ -5,7 +5,7 @@ public class EquipoDetalle {
 	public String nombre;
 	public int jugadores;
 
-	public EquipoDetalle(){
-		
+	public EquipoDetalle() {
+
 	}
 }

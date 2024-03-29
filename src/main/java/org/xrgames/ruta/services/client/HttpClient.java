@@ -80,7 +80,7 @@ public class HttpClient {
 	public Response post(String url) throws Exception {
 		return post(url, null);
 	}
-	
+
 	/**
 	 * Realiza una peticion POST a partir de un endpoint
 	 * 
@@ -91,10 +91,10 @@ public class HttpClient {
 	public Response post(Endpoint endpoint) throws Exception {
 		return post(endpoint.toString());
 	}
-	
+
 	/**
-	 * Realiza una peticion POST a partir de un endpoint pasando valores 
-	 * en formato JSON.
+	 * Realiza una peticion POST a partir de un endpoint pasando valores en formato
+	 * JSON.
 	 * 
 	 * @param endpoint
 	 * @return
@@ -105,8 +105,8 @@ public class HttpClient {
 	}
 
 	/**
-	 * Realiza una peticion POST a partir de una ruta pasando valores
-	 * en formato JSON.
+	 * Realiza una peticion POST a partir de una ruta pasando valores en formato
+	 * JSON.
 	 * 
 	 * @param route
 	 * @return

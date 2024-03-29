@@ -2,7 +2,6 @@ package org.xrgames.ruta.services;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -22,24 +21,25 @@ import jakarta.inject.Inject;
 @ApplicationScoped
 public class UserRegistry {
 
-	@Inject 
+	@Inject
 	UserSession session;
-	
+
 	/**
 	 * Lista de usuarios registrados.
 	 */
 	private HashMap<String, Usuario> usuarios = new HashMap<>();
-	
+
 	public ArrayList<UsuarioInfo> getAll() {
 		var result = new ArrayList<UsuarioInfo>(usuarios.size());
-		for(Map.Entry<String, Usuario> entry: usuarios.entrySet()) {
+		for (Map.Entry<String, Usuario> entry : usuarios.entrySet()) {
 			result.add(new UsuarioInfo(entry.getValue().username));
 		}
 		return result;
 	}
 
 	/**
-	 * Inserta un usuario en el registro si no se encuentra registrado con anterioridad.
+	 * Inserta un usuario en el registro si no se encuentra registrado con
+	 * anterioridad.
 	 * 
 	 * @param username
 	 * @return
@@ -52,18 +52,19 @@ public class UserRegistry {
 		var key = UUID.randomUUID().toString();
 		var usuario = new Usuario(key, username);
 		usuarios.put(key, usuario);
-		
+
 		return Result.of(usuario);
 	}
 
 	/**
 	 * Remueve un usuario del registro.
+	 * 
 	 * @param id
 	 */
 	public void remove(String id) {
 		usuarios.remove(id);
 	}
-	
+
 	/**
 	 * Encuentra un usuario por su nombre.
 	 * 
@@ -89,41 +90,43 @@ public class UserRegistry {
 	public boolean existsByUsername(String username) {
 		return findByUsername(username).isSome();
 	}
-	
+
 	/**
 	 * Devuelve un usuario utilizando un token de sesión.
+	 * 
 	 * @param token
 	 * @return
 	 */
-	public Option<Usuario> fromToken(SessionToken token){
+	public Option<Usuario> fromToken(SessionToken token) {
 		var key = token.id;
 		var usuario = this.usuarios.get(key);
-		if(null == usuario) {
+		if (null == usuario) {
 			return Option.none();
 		}
 		return Option.of(usuario);
 	}
-	
+
 	/**
 	 * Devuelve un usuario de la sesion actual si se encuentra registrado.
+	 * 
 	 * @param token
 	 * @return
 	 */
-	public Option<Usuario> currentUser(){
+	public Option<Usuario> currentUser() {
 		var token = session.getToken();
-		
-		if(token.isEmpty()) {
+
+		if (token.isEmpty()) {
 			return Option.none();
 		}
-		
+
 		var usuario = this.usuarios.get(token.id);
-		if(null == usuario) {
+		if (null == usuario) {
 			return Option.none();
 		}
-		
+
 		return Option.of(usuario);
 	}
-	
+
 	/**
 	 * Vacia el registro de usuarios.
 	 */
