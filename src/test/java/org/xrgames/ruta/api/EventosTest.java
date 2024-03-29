@@ -79,12 +79,16 @@ public class EventosTest {
 		evento = eventos.get(5);
 		assertEquals("CAMBIO_DE_JUGADOR", evento.get("eventoTipo"));
 		assertNotNull(evento.get("jugador"));
+		
+		// Leemos todos los eventos desde el comienzo.
+		eventos = leerEventos(creator.http, creator.juegoId, 6);
+		assertEquals(0, eventos.size());
 	}
 
 	@SuppressWarnings("unchecked")
-	private ArrayList<LinkedHashMap<Object, Object>> leerEventos(HttpClient http, String juegoId, int cantidadEsperada)
+	private ArrayList<LinkedHashMap<Object, Object>> leerEventos(HttpClient http, String juegoId, int idInicial)
 			throws Exception {
-		var response = http.get(Endpoint.of(Route.EVENTO, juegoId, 0));
+		var response = http.get(Endpoint.of(Route.EVENTO, juegoId, idInicial));
 		if(response.getStatus() == Response.Status.OK.getStatusCode()) {
 			return response.readEntity(ArrayList.class);
 		}else {
