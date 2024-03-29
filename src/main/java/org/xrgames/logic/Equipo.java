@@ -1,6 +1,6 @@
 package org.xrgames.logic;
 
-import org.xrgames.ruta.util.Jugadores;
+import org.xrgames.ruta.util.JugadoresMap;
 
 /**
  * Representa un equipo del juego.
@@ -11,7 +11,7 @@ public class Equipo {
 
 	public String nombre;
 
-	public Jugadores jugadores = new Jugadores();
+	public JugadoresMap jugadores = new JugadoresMap();
 
 	public Equipo() {
 		id = 0;
@@ -32,7 +32,7 @@ public class Equipo {
 	 * 
 	 * @return
 	 */
-	public Jugadores getJugadores() {
+	public JugadoresMap getJugadores() {
 		return jugadores;
 	}
 

@@ -37,7 +37,7 @@ public class EventoResource {
 		}
 
 		var user = session.getUser().unwrap();
-		var result = juegoService.getEventosForGame(juegoId, eventoId, user);
+		var result = juegoService.getEventosParaJuego(juegoId, eventoId, user);
 
 		return ResponseBuilder.of(result);
 	}

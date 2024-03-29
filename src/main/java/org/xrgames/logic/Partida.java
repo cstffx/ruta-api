@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import org.xrgames.ruta.entity.Usuario;
+import org.xrgames.ruta.util.JugadoresList;
+import org.xrgames.ruta.util.Option;
+
 /**
  * @author user
  */
@@ -12,10 +16,10 @@ public class Partida {
 	private int actual = 0;
 	private final Mazo mazo;
 
-	private final LinkedList<Jugador> jugadores = new LinkedList<>();
+	private final JugadoresList jugadores = new JugadoresList();
 
 	/**
-	 * Contruye una nueva partidad con un mazo.
+	 * Construye una nueva partida con un mazo.
 	 */
 	public Partida() {
 		mazo = new Mazo();
@@ -24,7 +28,7 @@ public class Partida {
 	/**
 	 * @return Lista de jugadores.
 	 */
-	public LinkedList<Jugador> getJugadores() {
+	public JugadoresList getJugadores() {
 		return jugadores;
 	}
 
@@ -196,6 +200,7 @@ public class Partida {
 
 			// Nueva mano
 			mano.clear();
+			
 			Cartas.transferMany(mazo, mano, Juego.CARTAS_EN_MANO);
 		}
 	}

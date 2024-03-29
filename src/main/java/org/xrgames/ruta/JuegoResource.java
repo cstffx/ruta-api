@@ -105,7 +105,7 @@ public class JuegoResource {
 		}
 
 		var user = registry.currentUser().unwrap();
-		var result = juegoService.join(juego, equipo, user);
+		var result = juegoService.unirse(juego, equipo, user);
 
 		return ResponseBuilder.of(result);
 	}

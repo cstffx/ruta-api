@@ -118,7 +118,7 @@ public class JuegoService {
 	/**
 	 * Elimina todos los juegos activos.
 	 */
-	public void clear() {
+	public void reiniciar() {
 		juegos.clear();
 	}
 
@@ -130,7 +130,7 @@ public class JuegoService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Result<String, Exception> join(String juegoId, int equipoId, Usuario usuario) throws Exception {
+	public Result<String, Exception> unirse(String juegoId, int equipoId, Usuario usuario) throws Exception {
 
 		if (usuario.getJuego().isSome()) {
 			return Result.of(new AlreadyJoined());
@@ -176,7 +176,14 @@ public class JuegoService {
 		return juego.iniciar();
 	}
 
-	public Result<ArrayList<HashMap<String, Object>>, Exception> getEventosForGame(String juegoId, int eventoId,
+	/**
+	 * Resuelve los eventos disponibles un un juego, según el usuario que realiza la petición.
+	 * @param juegoId
+	 * @param eventoId
+	 * @param reader
+	 * @return
+	 */
+	public Result<ArrayList<HashMap<String, Object>>, Exception> getEventosParaJuego(String juegoId, int eventoId,
 			Usuario reader) {
 		var juego = juegos.get(juegoId);
 		if (null == juego) {

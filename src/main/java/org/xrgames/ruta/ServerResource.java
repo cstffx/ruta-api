@@ -29,7 +29,7 @@ public class ServerResource {
 	@POST
 	@Path("reset")
 	public Response reset() {
-		juegoService.clear();
+		juegoService.reiniciar();
 		userRegistry.clear();
 		return Response.ok().build();
 	}

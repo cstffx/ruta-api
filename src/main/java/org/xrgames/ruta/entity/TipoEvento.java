@@ -10,6 +10,11 @@ public enum TipoEvento {
 	JUGADOR_SE_UNE,
 	// El usuario abandona un equipo (reservado)
 	JUGADOR_ABANDONA,
+	// Inicia una nueva partida
+	INICIO_PARTIDA,
+	// Notifica la repartición inicial de cartas 
+	// al comienzo del juego.
+	MANO_INICIALIZADA,
 	// Un equipo gana el juego
 	EQUIPO_GANA_JUEGO,
 	// Un equipo gana una ronda
