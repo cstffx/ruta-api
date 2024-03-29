@@ -34,13 +34,14 @@ public class EventoInicioPartida extends Evento {
 		var resultado = new ArrayList<JugadorInfo>();
 		
 		for(Jugador jugador: jugadores) {
-			var info =new JugadorInfo();
+			var info = new JugadorInfo();
 			info.username = jugador.getUsuario().username;
 			info.equipoId = jugador.getEquipo();
 			resultado.add(info);
 		}
 		
 		map.put("jugadores", resultado);
+		
 		return map;
 	} 
 }

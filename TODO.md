@@ -2,4 +2,3 @@
  - Comprobar si el jugador puede realizar la jugada.
  - Robar carta del mazo.
  - Lanzar carta al pozo.
- - Repartir cartas al comienzo.

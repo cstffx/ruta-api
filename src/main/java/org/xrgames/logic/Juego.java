@@ -1,5 +1,6 @@
 package org.xrgames.logic;
 
+import org.xrgames.ruta.entity.EventoCambioJugador;
 import org.xrgames.ruta.entity.EventoInicioJuego;
 import org.xrgames.ruta.entity.EventoInicioPartida;
 import org.xrgames.ruta.entity.EventoManoInicializada;
@@ -121,10 +122,20 @@ public final class Juego {
 		
 		// Nueva partida. Informa jugadores.
 		this.eventos.add(new EventoInicioPartida(partida));
-
+		
+		// Establecer un jugador inicial. 
+		var jugadorInicial = partida.getJugadorAlAzar(); 
+		partida.setJugadorActual(jugadorInicial);
+	
 		// Informa la mano del jugador.
 		this.eventos.add(new EventoManoInicializada(partida));
+	
+		// Debe comenzar el jugador siguiente al que reparte.
+		partida.avanzarJugador();
 		
+		// Informa del cambio de jugador.
+		this.eventos.add(new EventoCambioJugador(partida.getJugadorActual()));
+			
 		// Juego iniciado con éxito.
 		return Result.of(true);
 	}

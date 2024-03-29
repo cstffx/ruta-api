@@ -40,9 +40,6 @@ public final class Mazo extends Cartas {
 		this.addMany(new Carta(Tipo.DistanciaKilometrica, CartaSubtipo.Distancia50Km), 10);
 		this.addMany(new Carta(Tipo.DistanciaKilometrica, CartaSubtipo.Distancia25Km), 10);
 
-		this.addMany(new Carta(Tipo.SemaforoVerde, CartaSubtipo.Ninguno), 1);
-		this.addMany(new Carta(Tipo.SemaforoRojo, CartaSubtipo.Ninguno), 1);
-
 		this.shuffle();
 
 		return this.getAll();

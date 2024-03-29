@@ -2,18 +2,16 @@ package org.xrgames.logic;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.Random;
 
-import org.xrgames.ruta.entity.Usuario;
 import org.xrgames.ruta.util.JugadoresList;
-import org.xrgames.ruta.util.Option;
 
 /**
  * @author user
  */
 public class Partida {
 
-	private int actual = 0;
+	private Jugador jugadorActual;
 	private final Mazo mazo;
 
 	private final JugadoresList jugadores = new JugadoresList();
@@ -108,7 +106,7 @@ public class Partida {
 	 * @return
 	 */
 	public Jugador getJugadorActual() {
-		return jugadores.get(actual);
+		return jugadorActual;
 	}
 
 	/**
@@ -116,18 +114,19 @@ public class Partida {
 	 * 
 	 * @param index
 	 */
-	public void setJugadorActual(int index) {
-		actual = index;
+	public void setJugadorActual(Jugador jugador) {
+		jugadorActual = jugador;
 	}
 
 	/**
-	 * Avanza al siguiente jugador
+	 * Avanza al siguiente jugador.
 	 * 
 	 * @return
 	 */
 	public Jugador avanzarJugador() {
-		actual = (actual + 1) % jugadores.size();
-		return getJugadorActual();
+		var index = jugadores.indexOf(jugadorActual);
+		var nextIndex = (index + 1) % jugadores.size();
+		return jugadorActual = jugadores.get(nextIndex);
 	}
 
 	/**
@@ -219,6 +218,18 @@ public class Partida {
 			return null;
 		}
 		return cartas.get(0);
+	}
+	
+	/**
+	 * Determina un jugador al azar.
+	 * @return
+	 */
+	public Jugador getJugadorAlAzar() {
+		var size = this.jugadores.size();
+		var rand = new Random();
+		var randIndex = rand.nextInt(0, size);
+		
+		return this.jugadores.get(randIndex);
 	}
 
 	/**

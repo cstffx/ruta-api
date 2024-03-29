@@ -29,7 +29,8 @@ public class Evento {
 
 	public HashMap<String, Object> toInformacion(Usuario reader) {
 		var map = new HashMap<String, Object>();
-		map.put("tipo", tipo);
+		map.put("eventoId", eventId);
+		map.put("eventoTipo", tipo);
 		return map;
 	}
 }

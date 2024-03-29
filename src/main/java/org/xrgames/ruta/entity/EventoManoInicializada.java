@@ -12,6 +12,12 @@ public class EventoManoInicializada extends Evento {
 
 	final Partida partida;
 
+	public class InforJugadorInicial {
+		public String id;
+		public String username;
+		public int equipoId;
+	}
+	
 	public EventoManoInicializada(Partida partida) {
 		super(TipoEvento.MANO_INICIALIZADA);
 		this.partida = partida;
@@ -42,6 +48,22 @@ public class EventoManoInicializada extends Evento {
 		
 		map.put("mano", mano.toArray());
 		
+		putJugadorInfo("repartidor", map, jugador);
+		
 		return map;
+	}
+	
+	/**
+	 * Coloca los datos del jugador en un HashMap
+	 * @param map
+	 * @param jugador
+	 */
+	private void putJugadorInfo(String key, HashMap<String, Object> map, Jugador jugador) {
+		var info = new InforJugadorInicial();
+		var usuario = jugador.getUsuario();
+		info.id = usuario.id;
+		info.username = usuario.username;
+		info.equipoId = jugador.getEquipo();
+		map.put(key, info);
 	}
 }
