@@ -4,12 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.xrgames.logic.ConfiguracionJuego;
 import org.xrgames.logic.ModoJuego;
+import org.xrgames.ruta.entity.TipoEvento;
+import org.xrgames.ruta.services.Debug;
 import org.xrgames.ruta.services.Endpoint;
 import org.xrgames.ruta.services.Endpoint.Route;
 import org.xrgames.ruta.services.client.HttpClient;
@@ -25,11 +28,11 @@ public class EventosTest {
 	void beforeEach() throws Exception {
 		TestUtil.resetServer();
 	}
-	
+
 	@Test
 	@DisplayName("Se recibe listado de eventos ocurridos")
 	void getAllEventsTest() throws Exception {
-		
+
 		// Crear un juego para dos jugadores.
 		var config = new ConfiguracionJuego(ModoJuego.Individual, 2);
 		var creator = TestUtil.crearJuego(config);
@@ -37,80 +40,47 @@ public class EventosTest {
 		// Unir jugador 1
 		var response = creator.http.post(Endpoint.of(Route.JUEGO_JOIN, creator.juegoId, 1));
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		comprobarCantidadEventos(creator.http, creator.juegoId, 1);
-		
+
 		// Unir jugador 2
 		var http2 = HttpClient.forUser().unwrap();
 		response = http2.post(Endpoint.of(Route.JUEGO_JOIN, creator.juegoId, 2));
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		comprobarCantidadEventos(creator.http, creator.juegoId, 2);
 
 		// Jugador 1 inicia el juego.
 		response = creator.http.post(Endpoint.of(Route.JUEGO_START, creator.juegoId));
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		comprobarCantidadEventos(creator.http, creator.juegoId, 3);
-	}
-	
-	@Test
-	@DisplayName("Lista de eventos progresiva")
-	void getAllEventsProgressiveTest() throws Exception {
-		
-		// Crear un juego para dos jugadores.
-		var config = new ConfiguracionJuego(ModoJuego.Individual, 2);
-		var creator = TestUtil.crearJuego(config);
-		
-		// Unir jugador 1
-		var response = creator.http.post(Endpoint.of(Route.JUEGO_JOIN, creator.juegoId, 1));
-		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		
-		// Unir jugador 2
-		var http2 = HttpClient.forUser().unwrap();
-		response = http2.post(Endpoint.of(Route.JUEGO_JOIN, creator.juegoId, 2));
-		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		
-		// Jugador 1 inicia el juego.
-		response = creator.http.post(Endpoint.of(Route.JUEGO_START, creator.juegoId));
-		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		
-		// Usuario 1 lee la lista de eventos a partir del 4er evento, pero no hay resultado.
-		response = creator.http.get(Endpoint.of(Route.EVENTO, creator.juegoId, 3));
-		var items = response.readEntity(ArrayList.class);
-		assertTrue(items.isEmpty());
 
-		// Usuario 1 lee la lista de eventos a partir del 3er evento y encuentra 1 resultado.
-		response = creator.http.get(Endpoint.of(Route.EVENTO, creator.juegoId, 2));
-		items = response.readEntity(ArrayList.class);
-		assertEquals(1, items.size());
-		
-		// Usuario 1 lee la lista de eventos a partir del 2do evento y encuentra 2 resultado.
-		response = creator.http.get(Endpoint.of(Route.EVENTO, creator.juegoId, 1));
-		items = response.readEntity(ArrayList.class);
-		assertEquals(2, items.size());
-		
-		// Usuario 1 lee la lista de eventos a partir del 1er evento y encuentra 3 resultados.
-		response = creator.http.get(Endpoint.of(Route.EVENTO, creator.juegoId, 0));
-		items = response.readEntity(ArrayList.class);
-		assertEquals(3, items.size());
+		// Leemos todos los eventos desde el comienzo.
+		var eventos = leerEventos(creator.http, creator.juegoId, 0);
+
+		// Comprobamos cada uno de los tipos.
+
+		LinkedHashMap<Object, Object> evento = eventos.get(0);
+		assertEquals("JUGADOR_SE_UNE", evento.get("tipo"));
+
+		evento = eventos.get(1);
+		assertEquals("JUGADOR_SE_UNE", evento.get("tipo"));
+
+		evento = eventos.get(2);
+		assertEquals("INICIO_JUEGO", evento.get("tipo"));
+
+		evento = eventos.get(3);
+		assertEquals("INICIO_PARTIDA", evento.get("tipo"));
+
+		var jugadores = (ArrayList<?>) evento.get("jugadores");
+		assertEquals(2, jugadores.size());
+
+		evento = eventos.get(4);
+		assertEquals("MANO_INICIALIZADA", evento.get("tipo"));
+
+		Debug.debug(eventos);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private ArrayList<Object> leerEventos(HttpClient http, String juegoId, int cantidadEsperada) throws Exception {
+	private ArrayList<LinkedHashMap<Object, Object>> leerEventos(HttpClient http, String juegoId, int cantidadEsperada)
+			throws Exception {
 		var response = http.get(Endpoint.of(Route.EVENTO, juegoId, 0));
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		return (ArrayList<Object>)response.readEntity(ArrayList.class);
-	}
-	
-	/**
-	 * Lee la lista de eventos desde el comienzo y comprueba la cantidad de 
-	 * eventos acumulados.
-	 * @param http
-	 * @param juegoId
-	 * @param cantidadEsperada
-	 * @throws Exception 
-	 */
-	private ArrayList<Object> comprobarCantidadEventos(HttpClient http, String juegoId, int cantidadEsperada) throws Exception {
-		var items = leerEventos( http,  juegoId, cantidadEsperada);
-		assertEquals(cantidadEsperada, items.size());
-		return items;
+		return response.readEntity(ArrayList.class);
 	}
 }

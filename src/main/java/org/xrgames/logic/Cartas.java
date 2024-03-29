@@ -78,4 +78,8 @@ public class Cartas {
 	public LinkedList<Carta> getAll() {
 		return cartas;
 	}
+	
+	public Object[] toArray() {
+		return this.cartas.toArray();
+	}
 }

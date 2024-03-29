@@ -15,8 +15,8 @@ public class EventoInicioPartida extends Evento {
 	final Partida partida;
 	
 	public class JugadorInfo {
-		String username;
-		int equipoId;
+		public String username;
+		public int equipoId;
 	}
 
 	public EventoInicioPartida(Partida partida) {
@@ -39,6 +39,7 @@ public class EventoInicioPartida extends Evento {
 			info.equipoId = jugador.getEquipo();
 			resultado.add(info);
 		}
+		
 		map.put("jugadores", resultado);
 		return map;
 	} 

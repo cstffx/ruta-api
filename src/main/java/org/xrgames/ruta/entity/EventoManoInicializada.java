@@ -13,7 +13,7 @@ public class EventoManoInicializada extends Evento {
 	final Partida partida;
 
 	public EventoManoInicializada(Partida partida) {
-		super(TipoEvento.INICIO_JUEGO);
+		super(TipoEvento.MANO_INICIALIZADA);
 		this.partida = partida;
 	}
 
@@ -40,7 +40,7 @@ public class EventoManoInicializada extends Evento {
 		
 		var mano = jugador.getMano();
 		
-		map.put("mano", mano);
+		map.put("mano", mano.toArray());
 		
 		return map;
 	}
