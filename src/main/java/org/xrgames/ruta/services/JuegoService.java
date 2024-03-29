@@ -12,6 +12,7 @@ import org.xrgames.logic.Jugador;
 import org.xrgames.ruta.dto.EquipoInfo;
 import org.xrgames.ruta.dto.JuegoInfo;
 import org.xrgames.ruta.entity.Event;
+import org.xrgames.ruta.entity.PlayerJoinEvent;
 import org.xrgames.ruta.entity.Usuario;
 import org.xrgames.ruta.util.Juegos;
 import org.xrgames.ruta.util.Option;
@@ -145,6 +146,10 @@ public class JuegoService {
 
 		if (result.isOk()) {
 			usuario.setJuego(Option.of(juego));
+		
+			var eventos = juego.getEventos(); 
+			eventos.add(new PlayerJoinEvent(usuario));
+			
 			return Result.of(juegoId);
 		}
 

@@ -12,7 +12,7 @@ public class TeamWinsGameEvent extends Event {
 	final Equipo equipo;
 
 	public TeamWinsGameEvent(Equipo equipo) {
-		super(EventType.TEAM_WINS_GAME);
+		super(TipoEvento.EQUIPO_GANA_JUEGO);
 		this.equipo = equipo;
 	}
 

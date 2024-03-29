@@ -10,7 +10,7 @@ public class PlayerAbandon extends Event {
 	final Usuario usuario;
 
 	public PlayerAbandon(Usuario usuario) {
-		super(EventType.PLAYER_ABANDON);
+		super(TipoEvento.JUGADOR_ABANDONA);
 		this.usuario = usuario;
 	}
 

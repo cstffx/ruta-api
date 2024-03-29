@@ -9,13 +9,13 @@ public class Event {
 
 	long eventId = 0;
 
-	final EventType tipo;
+	final TipoEvento tipo;
 
-	public Event(EventType tipo) {
+	public Event(TipoEvento tipo) {
 		this.tipo = tipo;
 	}
 
-	public EventType getTipoEvento() {
+	public TipoEvento getTipoEvento() {
 		return this.tipo;
 	}
 

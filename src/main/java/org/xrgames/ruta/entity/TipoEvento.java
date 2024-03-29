@@ -3,19 +3,19 @@ package org.xrgames.ruta.entity;
 /**
  * Lista los tipos de eventos del juego.
  */
-public enum EventType {
+public enum TipoEvento {
 	// El juego comienza
-	GAME_START,
+	INICIO_JUEGO,
 	// El usuario se une a un equipo
-	PLAYER_JOIN,
+	JUGADOR_SE_UNE,
 	// El usuario abandona un equipo (reservado)
-	PLAYER_ABANDON,
+	JUGADOR_ABANDONA,
 	// Un equipo gana el juego
-	TEAM_WINS_GAME,
+	EQUIPO_GANA_JUEGO,
 	// Un equipo gana una ronda
-	TEAM_WINS_ROUND,
+	EQUIPO_GANA_RONDA,
 	// Jugador roba carta
-	PLAYER_DRAWS_CARD,
+	JUGADOR_ROBA_CARTA,
 	// Jugador juega carta
-	PLAYER_PLAYS_CARD
+	JUGADOR_JUEGA_CARTA
 }

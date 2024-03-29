@@ -10,7 +10,7 @@ public class PlayerJoinEvent extends Event {
 	final Usuario usuario;
 
 	public PlayerJoinEvent(Usuario usuario) {
-		super(EventType.PLAYER_JOIN);
+		super(TipoEvento.JUGADOR_SE_UNE);
 		this.usuario = usuario;
 	}
 

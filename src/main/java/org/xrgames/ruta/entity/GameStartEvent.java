@@ -5,6 +5,6 @@ package org.xrgames.ruta.entity;
  */
 public class GameStartEvent extends Event {
 	public GameStartEvent() {
-		super(EventType.GAME_START);
+		super(TipoEvento.INICIO_JUEGO);
 	}
 }

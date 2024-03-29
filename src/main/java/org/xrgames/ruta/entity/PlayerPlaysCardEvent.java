@@ -13,7 +13,7 @@ public class PlayerPlaysCardEvent extends Event {
 	final Carta carta;
 
 	public PlayerPlaysCardEvent(Usuario usuario, Carta carta) {
-		super(EventType.PLAYER_PLAYS_CARD);
+		super(TipoEvento.JUGADOR_JUEGA_CARTA);
 		this.usuario = usuario;
 		this.carta = carta;
 	}
