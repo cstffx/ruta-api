@@ -1,7 +1,8 @@
 package org.xrgames.logic;
 
-import org.xrgames.ruta.entity.GameStartEvent;
-import org.xrgames.ruta.entity.ManoInicializada;
+import org.xrgames.ruta.entity.EventoInicioJuego;
+import org.xrgames.ruta.entity.EventoInicioPartida;
+import org.xrgames.ruta.entity.EventoManoInicializada;
 import org.xrgames.ruta.entity.Usuario;
 import org.xrgames.ruta.services.FullGameObjectException;
 import org.xrgames.ruta.services.NotFoundException;
@@ -116,10 +117,14 @@ public final class Juego {
 		iniciado = true;
 
 		// Lanzar evento de inicio.
-		this.eventos.add(new GameStartEvent());
+		this.eventos.add(new EventoInicioJuego());
+		
+		// Nueva partida. Informa jugadores.
+		this.eventos.add(new EventoInicioPartida(partida));
 
-		this.eventos.add(new ManoInicializada(partida));
-
+		// Informa la mano del jugador.
+		this.eventos.add(new EventoManoInicializada(partida));
+		
 		// Juego iniciado con éxito.
 		return Result.of(true);
 	}

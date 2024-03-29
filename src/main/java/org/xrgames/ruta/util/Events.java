@@ -2,19 +2,19 @@ package org.xrgames.ruta.util;
 
 import java.util.LinkedList;
 
-import org.xrgames.ruta.entity.Event;
+import org.xrgames.ruta.entity.Evento;
 
 /**
  * Representan una colección de eventos del juego.
  */
-public class Events extends LinkedList<Event> {
+public class Events extends LinkedList<Evento> {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Agrega un evento a la lista.
 	 */
-	public synchronized boolean add(Event event) {
+	public synchronized boolean add(Evento event) {
 		event.setEventId(size() + 1);
 		return super.add(event);
 	}

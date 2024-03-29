@@ -5,17 +5,17 @@ import java.util.HashMap;
 /**
  * Ocurre cuando un jugador se une a un equipo.
  */
-public class PlayerJoinEvent extends Event {
+public class EventoJugadorSeUne extends Evento {
 
 	final Usuario usuario;
 
-	public PlayerJoinEvent(Usuario usuario) {
+	public EventoJugadorSeUne(Usuario usuario) {
 		super(TipoEvento.JUGADOR_SE_UNE);
 		this.usuario = usuario;
 	}
 
-	public HashMap<String, Object> toUserMap(Usuario reader) {
-		var map = super.toUserMap(reader);
+	public HashMap<String, Object> toInformacion(Usuario reader) {
+		var map = super.toInformacion(reader);
 		map.put("username", usuario.getUsername());
 		return map;
 	}

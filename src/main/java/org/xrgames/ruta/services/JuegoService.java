@@ -11,8 +11,8 @@ import org.xrgames.logic.Juego;
 import org.xrgames.logic.Jugador;
 import org.xrgames.ruta.dto.EquipoInfo;
 import org.xrgames.ruta.dto.JuegoInfo;
-import org.xrgames.ruta.entity.Event;
-import org.xrgames.ruta.entity.PlayerJoinEvent;
+import org.xrgames.ruta.entity.Evento;
+import org.xrgames.ruta.entity.EventoJugadorSeUne;
 import org.xrgames.ruta.entity.Usuario;
 import org.xrgames.ruta.util.Juegos;
 import org.xrgames.ruta.util.Option;
@@ -148,7 +148,7 @@ public class JuegoService {
 			usuario.setJuego(Option.of(juego));
 		
 			var eventos = juego.getEventos(); 
-			eventos.add(new PlayerJoinEvent(usuario));
+			eventos.add(new EventoJugadorSeUne(usuario));
 			
 			return Result.of(juegoId);
 		}
@@ -195,8 +195,8 @@ public class JuegoService {
 
 		var items = new ArrayList<HashMap<String, Object>>(subset.size());
 
-		for (Event event : subset) {
-			items.add(event.toUserMap(reader));
+		for (Evento event : subset) {
+			items.add(event.toInformacion(reader));
 		}
 
 		return Result.of(items);

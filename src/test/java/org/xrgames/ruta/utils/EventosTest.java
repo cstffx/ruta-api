@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.xrgames.logic.ConfiguracionJuego;
 import org.xrgames.logic.ModoJuego;
 import org.xrgames.ruta.api.TestUtil;
-import org.xrgames.ruta.entity.Event;
+import org.xrgames.ruta.entity.Evento;
 import org.xrgames.ruta.entity.TipoEvento;
 import org.xrgames.ruta.services.Debug;
 import org.xrgames.ruta.services.Endpoint;
@@ -29,11 +29,11 @@ public class EventosTest {
 	void addTest() {
 		var eventos = new Events();
 
-		eventos.add(new Event(TipoEvento.JUGADOR_ABANDONA));
-		eventos.add(new Event(TipoEvento.JUGADOR_ABANDONA));
-		eventos.add(new Event(TipoEvento.JUGADOR_ABANDONA));
+		eventos.add(new Evento(TipoEvento.JUGADOR_ABANDONA));
+		eventos.add(new Evento(TipoEvento.JUGADOR_ABANDONA));
+		eventos.add(new Evento(TipoEvento.JUGADOR_ABANDONA));
 
-		var evento = new Event(TipoEvento.JUGADOR_ABANDONA);
+		var evento = new Evento(TipoEvento.JUGADOR_ABANDONA);
 		eventos.add(evento);
 
 		assertEquals(4, evento.getEventId());

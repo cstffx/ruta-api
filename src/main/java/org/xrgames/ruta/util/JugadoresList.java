@@ -17,7 +17,7 @@ public class JugadoresList extends LinkedList<Jugador> {
 	 * @param usuario
 	 * @return
 	 */
-	public Option<Jugador> findByUsuario(Usuario usuario) {
+	public Option<Jugador> buscarPorUsuario(Usuario usuario) {
 		for(Jugador jugador: this) {
 			if(usuario == jugador.getUsuario()) {
 				return Option.of(jugador);

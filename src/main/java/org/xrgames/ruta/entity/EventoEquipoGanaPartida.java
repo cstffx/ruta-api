@@ -7,17 +7,17 @@ import org.xrgames.logic.Equipo;
 /**
  * Ocurre cuando un equipo gana un juego.
  */
-public class TeamWinsGameEvent extends Event {
+public class EventoEquipoGanaPartida extends Evento {
 
 	final Equipo equipo;
 
-	public TeamWinsGameEvent(Equipo equipo) {
+	public EventoEquipoGanaPartida(Equipo equipo) {
 		super(TipoEvento.EQUIPO_GANA_JUEGO);
 		this.equipo = equipo;
 	}
 
-	public HashMap<String, Object> toUserMap(Usuario reader) {
-		var map = super.toUserMap(reader);
+	public HashMap<String, Object> toInformacion(Usuario reader) {
+		var map = super.toInformacion(reader);
 		map.put("equipoId", equipo.id);
 		map.put("equipoNombre", equipo.nombre);
 		return map;

@@ -7,19 +7,19 @@ import org.xrgames.logic.Carta;
 /**
  * Ocurre cuando un jugador juega una carta.
  */
-public class PlayerPlaysCardEvent extends Event {
+public class EventoJugadorJuegaCarta extends Evento {
 
 	final Usuario usuario;
 	final Carta carta;
 
-	public PlayerPlaysCardEvent(Usuario usuario, Carta carta) {
+	public EventoJugadorJuegaCarta(Usuario usuario, Carta carta) {
 		super(TipoEvento.JUGADOR_JUEGA_CARTA);
 		this.usuario = usuario;
 		this.carta = carta;
 	}
 
-	public HashMap<String, Object> toUserMap(Usuario reader) {
-		var map = super.toUserMap(reader);
+	public HashMap<String, Object> toInformacion(Usuario reader) {
+		var map = super.toInformacion(reader);
 		// Damos acceso a los detalles solo al propietario de la accion
 		if (usuario == reader) {
 			var direccion = carta.getDireccion();

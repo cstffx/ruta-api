@@ -5,13 +5,13 @@ import java.util.HashMap;
 /**
  * Clase padre de todos los eventos del juego.
  */
-public class Event {
+public class Evento {
 
 	long eventId = 0;
 
 	final TipoEvento tipo;
 
-	public Event(TipoEvento tipo) {
+	public Evento(TipoEvento tipo) {
 		this.tipo = tipo;
 	}
 
@@ -27,7 +27,7 @@ public class Event {
 		return this.eventId;
 	}
 
-	public HashMap<String, Object> toUserMap(Usuario reader) {
+	public HashMap<String, Object> toInformacion(Usuario reader) {
 		var map = new HashMap<String, Object>();
 		map.put("tipo", tipo);
 		return map;

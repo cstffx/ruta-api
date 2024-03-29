@@ -8,11 +8,11 @@ import org.xrgames.logic.Partida;
 /**
  * Ocurre cuando el jugador recibe una nueva mano de cartas al comienzo de una partida.
  */
-public class ManoInicializada extends Event {
+public class EventoManoInicializada extends Evento {
 
 	final Partida partida;
 
-	public ManoInicializada(Partida partida) {
+	public EventoManoInicializada(Partida partida) {
 		super(TipoEvento.INICIO_JUEGO);
 		this.partida = partida;
 	}
@@ -23,17 +23,17 @@ public class ManoInicializada extends Event {
 	 * 
 	 * @throws Exception
 	 */
-	public HashMap<String, Object> toUserMap(Usuario reader) {
-		var map = super.toUserMap(reader);
-		var jugadorOption = partida.getJugadores().findByUsuario(reader);
+	public HashMap<String, Object> toInformacion(Usuario lector) {
+		var map = super.toInformacion(lector);
+		var jugadorEncontrado = partida.getJugadores().buscarPorUsuario(lector);
 
-		if (jugadorOption.isNone()) {
+		if (jugadorEncontrado.isNone()) {
 			return map;
 		}
 
 		Jugador jugador = null;
 		try {
-			jugador = jugadorOption.unwrap();
+			jugador = jugadorEncontrado.unwrap();
 		} catch (Exception e) {
 			// Nunca se ejecuta.
 		}
