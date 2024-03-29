@@ -17,7 +17,7 @@ public class TeamWinsGameEvent extends Event {
 	}
 	
 	public HashMap<String, Object> toUserMap(Usuario reader) {
-		var map = new HashMap<String, Object>();
+		var map = super.toUserMap(reader);
 		map.put("equipoId", equipo.id);
 		map.put("equipoNombre", equipo.nombre);
 		return map;

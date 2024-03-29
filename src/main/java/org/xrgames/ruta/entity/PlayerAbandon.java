@@ -15,7 +15,7 @@ public class PlayerAbandon extends Event {
 	}
 
 	public HashMap<String, Object> toUserMap(Usuario reader) {
-		var map = new HashMap<String, Object>();
+		var map = super.toUserMap(reader);
 		map.put("username", usuario.getUsername());
 		return map;
 	}

@@ -1,11 +1,13 @@
 package org.xrgames.logic;
 
+import org.xrgames.ruta.entity.GameStartEvent;
 import org.xrgames.ruta.entity.Usuario;
 import org.xrgames.ruta.services.Debug;
 import org.xrgames.ruta.services.FullGameObjectException;
 import org.xrgames.ruta.services.NotFoundException;
 import org.xrgames.ruta.services.OperationNotAllowed;
 import org.xrgames.ruta.util.Equipos;
+import org.xrgames.ruta.util.Events;
 import org.xrgames.ruta.util.Option;
 import org.xrgames.ruta.util.Result;
 
@@ -41,13 +43,14 @@ public final class Juego {
 	// Cantidad máxima de jugadores por equipo
 	public static int MAX_JUGADOR_POR_EQUIPO = 2;
 
-	private final Partida partida;
 	public Equipos equipos = new Equipos();
 
-	private final Usuario owner;
-	private ConfiguracionJuego config;
-
-	private boolean iniciado;
+	final Partida partida;
+	final Usuario owner;
+	ConfiguracionJuego config;
+	final Events eventos = new Events();
+	
+	boolean iniciado;
 
 	/**
 	 * Construye un juego con propietario y configuracion por defecto.
@@ -111,6 +114,10 @@ public final class Juego {
 		// Juego marcado como iniciado.
 		iniciado = true;
 		
+		// Lanzar evento de inicio. 
+		this.eventos.add(new GameStartEvent());
+		
+		// Juego iniciado con éxito.
 		return Result.of(true); 	
 	}
 
@@ -251,5 +258,12 @@ public final class Juego {
 		equipo.getJugadores().put(usuarioId, jugador);
 
 		return Result.of(equipo.id);
+	}
+	
+	/**
+	 * @return El listado de eventos del juego.
+	 */
+	public Events getEventos() {
+		return this.eventos;
 	}
 }

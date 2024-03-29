@@ -1,5 +1,6 @@
 package org.xrgames.ruta.services.session;
 
+import org.xrgames.ruta.entity.Usuario;
 import org.xrgames.ruta.services.AlreadyExistsException;
 import org.xrgames.ruta.services.UserRegistry;
 import org.xrgames.ruta.util.Option;
@@ -93,5 +94,14 @@ public class UserSession {
 			return Option.none();
 		}
 		return Option.of(token.id);
+	}
+	
+	/**
+	 * Retorna el usuario de la sesión actual.
+	 * @return
+	 */
+	public Option<Usuario> getUser() {
+		var token = this.getToken(); 
+		return userRegistry.fromToken(token);
 	}
 }

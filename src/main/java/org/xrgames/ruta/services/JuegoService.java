@@ -1,6 +1,8 @@
 package org.xrgames.ruta.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.UUID;
 
@@ -10,6 +12,7 @@ import org.xrgames.logic.Juego;
 import org.xrgames.logic.Jugador;
 import org.xrgames.ruta.dto.EquipoInfo;
 import org.xrgames.ruta.dto.JuegoInfo;
+import org.xrgames.ruta.entity.Event;
 import org.xrgames.ruta.entity.Usuario;
 import org.xrgames.ruta.util.Equipos;
 import org.xrgames.ruta.util.Juegos;
@@ -163,5 +166,23 @@ public class JuegoService {
 		}
 		
 		return juego.iniciar();
-	}		
+	}	
+	
+	public Result<ArrayList<HashMap<String, Object>>, Exception> getEventosForGame(String juegoId, int eventoId, Usuario reader) {
+		var juego = juegos.get(juegoId);
+		if(null == juego) {
+			return Result.of(new NotFoundException("No se encuentra el juego"));
+		}
+		
+		var eventos = juego.getEventos();
+		var subset = eventos.getAllAfter(eventoId);
+		
+		var items = new ArrayList<HashMap<String, Object>>(subset.size());
+		
+		for(Event event: subset) {
+			items.add(event.toUserMap(reader));
+		}
+		
+		return Result.of(items);
+	}
 }

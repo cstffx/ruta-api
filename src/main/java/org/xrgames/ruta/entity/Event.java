@@ -28,6 +28,8 @@ public class Event {
 	}
 	
 	public HashMap<String, Object> toUserMap(Usuario reader){
-		return new HashMap<String, Object>();
+		var map = new HashMap<String, Object>();
+		map.put("tipo", tipo);
+		return map;
 	}
 }

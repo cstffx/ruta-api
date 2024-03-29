@@ -19,7 +19,7 @@ public class PlayerPlaysCardEvent extends Event {
 	}
 
 	public HashMap<String, Object> toUserMap(Usuario reader) {
-		var map = new HashMap<String, Object>();
+		var map = super.toUserMap(reader);
 		// Damos acceso a los detalles solo al propietario de la accion
 		if (usuario == reader) {
 			var direccion = carta.getDireccion();

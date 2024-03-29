@@ -3,8 +3,8 @@ package org.xrgames.ruta.entity;
 /**
  * Ocurre cuando inicia un juego.
  */
-public class GameStart extends Event {	
-	public GameStart() {
+public class GameStartEvent extends Event {	
+	public GameStartEvent() {
 		super(EventType.GAME_START);
 	}
 }

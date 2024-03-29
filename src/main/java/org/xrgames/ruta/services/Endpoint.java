@@ -27,7 +27,8 @@ public class Endpoint {
 		EQUIPO_CREATE("equipo"), 
 		STATUS("status"),
 		STATUS_PROTECTED("status/protected"), 
-		SERVER_RESET("server/reset");
+		SERVER_RESET("server/reset"), 
+		EVENTO("evento/{0}/{1}");
 
 		public final String path;
 

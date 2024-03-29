@@ -1,5 +1,6 @@
 package org.xrgames.ruta.util;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.xrgames.ruta.entity.Event;
@@ -24,7 +25,21 @@ public class Events extends LinkedList<Event> {
 	 * @param timestamp
 	 * @return
 	 */
-	Events getAllFrom(int eventId){
-		return (Events) this.subList(eventId - 1, size());
+	public Events getAllAfter(int eventId){
+		
+		if(eventId == 0) {
+			return this;
+		}
+		
+		var events = new Events(); 
+		if(eventId == size()) {
+			return new Events();
+		}
+		
+		for(int i = eventId; i < size(); i++) {
+			events.add(this.get(i));
+		}
+		
+		return events;
 	}
 }
