@@ -158,7 +158,6 @@ public class JuegoService {
 
 	/**
 	 * Iniciar un juego.
-	 * 
 	 * @param juegoId
 	 * @param usuario
 	 * @return
