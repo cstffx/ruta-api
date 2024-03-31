@@ -29,5 +29,6 @@ public class TokenWriter extends TokenHandler {
 		HttpSession session = request.getSession();
 		session.removeAttribute(ID_ATTRIBUTE);
 		session.removeAttribute(NAME_ATTRIBUTE);
+		session.invalidate();
 	}
 }

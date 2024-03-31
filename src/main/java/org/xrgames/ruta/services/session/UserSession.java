@@ -74,6 +74,7 @@ public class UserSession {
 		var id = token.id;
 		userRegistry.remove(id);
 		writer.erase();
+		
 	}
 
 	/**
