@@ -1,5 +1,7 @@
 package org.xrgames.ruta;
 
+import java.util.HashMap;
+
 import org.xrgames.logic.ConfiguracionJuego;
 import org.xrgames.ruta.services.JuegoService;
 import org.xrgames.ruta.services.UserRegistry;
@@ -65,7 +67,10 @@ public class JuegoResource {
 			return ResponseError.found();
 		}
 
-		return Response.ok(gameId.unwrap()).build();
+		var result = new HashMap<String, String>();
+		result.put("gameId", gameId.unwrap());
+		
+		return Response.ok(result).build();
 	}
 
 	/**
