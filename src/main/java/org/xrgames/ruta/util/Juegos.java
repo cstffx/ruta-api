@@ -66,12 +66,14 @@ public class Juegos extends HashMap<String, Juego> {
 	public ArrayList<JuegoInfo> getAllInfo() throws Exception {
 		ArrayList<JuegoInfo> items = new ArrayList<>(size());
 		for (Map.Entry<String, Juego> entry : entrySet()) {
+			var juegoId = entry.getKey();
 			var juego = entry.getValue();
 			var info = new JuegoInfo();
 			var partida = juego.getPartida();
 			var configuracion = juego.getConfig();
 			var owner = juego.getOwner();
 
+			info.id = juegoId;
 			info.owner = owner.getUsername();
 			info.jugadores = partida.getJugadores().size();
 			info.modo = configuracion.getModo();

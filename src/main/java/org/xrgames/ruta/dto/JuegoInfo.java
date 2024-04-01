@@ -7,6 +7,7 @@ import org.xrgames.logic.ModoJuego;
  */
 public class JuegoInfo {
 
+	public String id;
 	public String owner;
 	public boolean iniciado;
 	public int jugadores;
