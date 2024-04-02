@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -97,7 +98,7 @@ public class JuegoResourceTest {
 		var response = http.post(Endpoint.of(Route.JUEGO_CREATE), formData);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 
-		var juegoId = response.readEntity(String.class);
+		var juegoId = (String)response.readEntity(HashMap.class).get("gameId");
 		assertTrue(juegoId.length() > 0);
 
 		// Terminar el juego creado.
@@ -108,7 +109,7 @@ public class JuegoResourceTest {
 		var http2 = HttpClient.forUser().unwrap();
 		response = http2.post(Endpoint.of(Route.JUEGO_CREATE), formData);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		var juego2Id = response.readEntity(String.class);
+		var juego2Id = (String)response.readEntity(HashMap.class).get("gameId");
 		assertTrue(juego2Id.length() > 0);
 
 		// Intentar que el usuario 1 lo termine.
@@ -148,7 +149,7 @@ public class JuegoResourceTest {
 		var response = http.post(Endpoint.of(Route.JUEGO_CREATE), formData);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 
-		var juegoId = response.readEntity(String.class);
+		var juegoId = response.readEntity(HashMap.class).get("gameId");
 		assertNotNull(juegoId);
 
 		// Usamos 0 cuando el id del equipo no importa.
@@ -166,7 +167,7 @@ public class JuegoResourceTest {
 		var response = http.post(Endpoint.of(Route.JUEGO_CREATE), formData);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 
-		var juegoId = response.readEntity(String.class);
+		var juegoId = response.readEntity(HashMap.class).get("gameId");
 		assertNotNull(juegoId);
 
 		var equipoId = "1";
@@ -206,13 +207,13 @@ public class JuegoResourceTest {
 		var http = HttpClient.forUser().unwrap();
 		var response = http.post(Endpoint.of(Route.JUEGO_CREATE), formData);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), "Usuario 1 debe crear juego individual");
-		var juego1Id = response.readEntity(String.class);
+		var juego1Id = response.readEntity(HashMap.class).get("gameId");
 
 		// Usuario 2 crea juego 2.
 		http = HttpClient.forUser().unwrap();
 		response = http.post(Endpoint.of(Route.JUEGO_CREATE), formData);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), "Usuario 2 debe crear juego individual");
-		var juego2Id = response.readEntity(String.class);
+		var juego2Id = response.readEntity(HashMap.class).get("gameId");
 
 		// Usuario 3 se registra.
 		http = HttpClient.forUser().unwrap();
@@ -238,7 +239,7 @@ public class JuegoResourceTest {
 		var response = http1.post(Endpoint.of(Route.JUEGO_CREATE), formData);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(),
 				"Usuario 1 debe crear juego individual.");
-		var juegoId = response.readEntity(String.class);
+		var juegoId = response.readEntity(HashMap.class).get("gameId");
 
 		// Usuario 1 se une a juego 1.
 		response = http1.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, "0"));
@@ -261,7 +262,7 @@ public class JuegoResourceTest {
 		var http1 = HttpClient.forUser().unwrap();
 		var response = http1.post(Endpoint.of(Route.JUEGO_CREATE), formData);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(), "Usuario 1 debe crear juego individual");
-		var juegoId = response.readEntity(String.class);
+		var juegoId = response.readEntity(HashMap.class).get("gameId");
 
 		// Usuario 1 se une a juego 1.
 		response = http1.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, "0"));
@@ -285,7 +286,7 @@ public class JuegoResourceTest {
 		var response = http1.post(Endpoint.of(Route.JUEGO_CREATE), formData);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus(),
 				"Usuario 1 debe crear juego individual.");
-		var juegoId = response.readEntity(String.class);
+		var juegoId = response.readEntity(HashMap.class).get("gameId");
 
 		// Usuario 1 se une a juego 1.
 		response = http1.post(Endpoint.of(Route.JUEGO_JOIN, juegoId, "0"));

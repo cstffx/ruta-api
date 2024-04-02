@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.xrgames.ruta.services.Debug;
 import org.xrgames.ruta.services.Endpoint;
 import org.xrgames.ruta.services.Endpoint.Route;
 import org.xrgames.ruta.services.LoginForm;
@@ -76,5 +77,8 @@ public class JugadorResourceTest {
 		// No podremos acceder a un endpoint protegido.
 		response = http.get(Endpoint.of(Route.STATUS_PROTECTED));
 		assertEquals(403, response.getStatus());
+		
+		response = http.get(Endpoint.of(Route.STATUS));
+		Debug.debug(response.readEntity(String.class));
 	}
 }

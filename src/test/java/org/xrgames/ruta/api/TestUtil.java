@@ -2,7 +2,10 @@ package org.xrgames.ruta.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.HashMap;
+
 import org.xrgames.logic.ConfiguracionJuego;
+import org.xrgames.ruta.services.Debug;
 import org.xrgames.ruta.services.Endpoint;
 import org.xrgames.ruta.services.Endpoint.Route;
 import org.xrgames.ruta.services.client.HttpClient;
@@ -15,6 +18,10 @@ import jakarta.ws.rs.core.Response;
  * Funciones de uso frecuente en los test.
  */
 public class TestUtil {
+	
+	public class JuegoCreateResult {
+		public String gameId;
+	}
 
 	/**
 	 * Reinicia el estado del servidor.
@@ -74,8 +81,9 @@ public class TestUtil {
 	public static CreateJuegoResult crearJuego(HttpClient http, ConfiguracionJuego config) throws Exception {
 		var response = http.post(Endpoint.of(Route.JUEGO_CREATE), config);
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		var juegoId = response.readEntity(String.class);
+		
+		var juegoId = response.readEntity(HashMap.class);
 
-		return new CreateJuegoResult(juegoId, http);
+		return new CreateJuegoResult((String)juegoId.get("gameId"), http);
 	}
 }
